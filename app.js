@@ -4,7 +4,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 
-const { authRoute, userRoute} = require("./src/routes");
+const { authRoute, userRoute, pharmacyRoute} = require("./src/routes");
 const { errorConverter, errorHandler } = require("./src/middleware/error");
 
 app.use(express.urlencoded({ extended: true }));
@@ -12,6 +12,7 @@ app.use(express.json());
 
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/auth", authRoute);
+app.use("/api/v1/pharmacy", pharmacyRoute)
 
 app.use((req, res, next) => {
   next(new ApiError(httpStatus.NOT_FOUND, "Not found"));
