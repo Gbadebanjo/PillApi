@@ -4,7 +4,7 @@ const { Model } = require("sequelize");
 const PROTECTED_ATTRIBUTES = [];
 
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class Pharmacy extends Model {
     toJSON() {
       // hide protected fields
       const attributes = { ...this.get() };
@@ -21,29 +21,27 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.belongsToMany(models.Pharmacy, {
-        foreignKey: "user_id",
+      Pharmacy.belongsToMany(models.User, {
+        foreignKey: "pharmacy_id",
         through: models.UserPharmaRole,
       });
-      User.belongsToMany(models.Role, {
-        foreignKey: "user_id",
+      Pharmacy.belongsToMany(models.Role, {
+        foreignKey: "role_id",
         through: models.UserPharmaRole,
       });
     }
   }
-  User.init(
+  Pharmacy.init(
     {
-      user_id: {
+      pharmacy_id: {
         allowNull: false,
         primaryKey: true,
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
       },
-      firstname: DataTypes.STRING,
-      lastname: DataTypes.STRING,
+      name: DataTypes.STRING,
       email: {
         type: DataTypes.STRING,
-        unique: true
       },
       phone: {
         type: DataTypes.STRING,
@@ -54,14 +52,13 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: 'unverified'
       },
       location: DataTypes.STRING,
-      password: DataTypes.STRING,
       last_login_at: DataTypes.DATE,
       last_ip_address: DataTypes.STRING,
     },
     {
       sequelize,
-      modelName: "User",
+      modelName: "Pharmacy",
     }
   );
-  return User;
+  return Pharmacy;
 };
