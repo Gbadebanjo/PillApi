@@ -1,13 +1,13 @@
 const express = require("express");
 const PharmacyController = require("../controller/pharmacy.controller");
-const { verify } = require("../middleware/verifyToken");
+const { verify, authenticate } = require("../middleware/verifyToken");
 const { validateReq } = require("../middleware/validate");
 const { login, signUp } = require("../validations/auth.validations");
 const router = express.Router();
 
-router.post("/register",  (new PharmacyController()).register);
+router.post("/register", authenticate, verify(['PHARMA-ADMIN']),  (new PharmacyController()).register);
 
-router.post("/profile-user",  (new PharmacyController()).profileUser);
+router.post("/profile-user", authenticate, verify(['PHARMA-ADMIN']),  (new PharmacyController()).profileUser);
 
 router.post("/add-stock",  (new PharmacyController()).addStock);
 

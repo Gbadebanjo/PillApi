@@ -4,14 +4,18 @@ const { successResponse, abortIf } = require("../utils/responder");
 const httpStatus = require("http-status");
 
 class AuthenticationController{
-  signUp = catchAsync(async (req, res, next) => {
+  static signUp = catchAsync(async (req, res, next) => {
     const login = await (new AuthenticationService).signUp(req.body);
     return successResponse(res, login);
   });
 
-  signIn = catchAsync(async (req, res, next) => {
-    console.log(req.body);
-    const signUp = await (new AuthenticationService).signIn(req.body);
+  static signIn = catchAsync(async (req, res, next) => {
+    const signUp = await AuthenticationService.signIn(req.body);
+    return successResponse(res, signUp);
+  });
+
+  static adminSignIn = catchAsync(async (req, res, next) => {
+    const signUp = await AuthenticationService.adminSignIn(req.body);
     return successResponse(res, signUp);
   });
 }
