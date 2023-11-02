@@ -11,7 +11,7 @@ class GenericRepo {
    setOptions(model, {selectOptions, condition, paginateOptions, transaction, inclussions, data, array, changes, returning}) {
       console.log(model, {selectOptions, condition, paginateOptions, transaction, inclussions, data, array})
       this.query = {selectOptions, condition, paginateOptions, transaction, inclussions, data, array, changes, returning};
-      this.dbQuery = postgres.models[model]
+      this.dbQuery = postgres[model]
       return this
    }
 

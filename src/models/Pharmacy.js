@@ -21,13 +21,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Pharmacy.belongsToMany(models.User, {
+      Pharmacy.hasMany(models.PharmaAdmin, {
         foreignKey: "pharmacy_id",
-        through: models.UserPharmaRole,
       });
-      Pharmacy.belongsToMany(models.Role, {
-        foreignKey: "role_id",
-        through: models.UserPharmaRole,
+      Pharmacy.hasMany(models.Product, {
+        foreignKey: "pharmacy_id",
       });
     }
   }
@@ -42,11 +40,13 @@ module.exports = (sequelize, DataTypes) => {
       name: DataTypes.STRING,
       email: {
         type: DataTypes.STRING,
+        unique: true
       },
       phone: {
         type: DataTypes.STRING,
         unique: true,
       },
+      logo: DataTypes.TEXT,
       status: {
         type: DataTypes.ENUM(['verified', 'unverified']),
         defaultValue: 'unverified'

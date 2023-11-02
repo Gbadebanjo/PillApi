@@ -2,10 +2,16 @@ require("dotenv").config();
 const serverless = require("serverless-http");
 const express = require("express");
 const mongoose = require("mongoose");
+const fileUpload = require("express-fileupload")
 const app = express();
 
 const { authRoute, userRoute, pharmacyRoute} = require("./src/routes");
 const { errorConverter, errorHandler } = require("./src/middleware/error");
+
+app.use(fileUpload({
+  useTempFiles : true,
+  tempFileDir : '/tmp/'
+}));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
