@@ -7,6 +7,8 @@ const app = express();
 
 const { authRoute, userRoute, pharmacyRoute} = require("./src/routes");
 const { errorConverter, errorHandler } = require("./src/middleware/error");
+const ApiError = require("./src/utils/ApiError");
+const httpStatus = require("http-status");
 
 app.use(fileUpload({
   useTempFiles : true,
@@ -21,7 +23,7 @@ app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/pharmacy", pharmacyRoute)
 
 app.use((req, res, next) => {
-  next(new ApiError(httpStatus.NOT_FOUND, "Not found"));
+  next(new ApiError(httpStatus.NOT_FOUND, "Route Not found"));
 });
 
 app.use(errorConverter);

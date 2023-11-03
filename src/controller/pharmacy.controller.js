@@ -14,16 +14,16 @@ class PharmacyController{
         return successResponse(res, create);
     });
     addStock = catchAsync(async (req, res, next) => {
-        const create = await (new PharmacyService).addStock({...req.body, pharmacy_id: req.auth.pharmacy_id});
+        const create = await (new PharmacyService).addStock({product: req.body, pharmacy_id: req.auth.pharmacy_id});
         return successResponse(res, create);
     });
     listProducts = catchAsync(async (req, res, next) => {
         const paginate = paginateOptions(req)
-        const create = await (new PharmacyService).listProducts({ query: req.query, role: req.auth.role_id, paginateOptions: paginate});
+        const create = await (new PharmacyService).listProducts({ query: req.query, role: req.auth.role, paginateOptions: paginate, auth: req.auth});
         return successResponse(res, create);
     });
     getOneProduct = catchAsync(async (req, res, next) => {
-        const create = await (new PharmacyService).getOneProduct(rep.params.product_id);
+        const create = await (new PharmacyService).getOneProduct({product_id:req.params.product_id, auth: req.auth});
         return successResponse(res, create);
     });
     uploadProductsCsv = catchAsync(async (req, res, next) => {

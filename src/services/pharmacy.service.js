@@ -42,10 +42,7 @@ class PharmacyService {
             }
         }).create()
         // Send email to profiled user
-        return {
-            user: createUser,
-            role: userRole,
-        }
+        return createUser
     }
     async addStock ({product, pharmacy_id}) {
         const createProduct = await genericRepo.setOptions('Product', {
@@ -53,12 +50,12 @@ class PharmacyService {
         }).create();
         return createProduct;
     }
-    async listProducts ({query, role, paginateOptions}) {
+    async listProducts ({query, role, paginateOptions, auth}) {
         let {search, pharmacy_id, amount_gt, amount_lt } = query
-        if(!amount_gt) amount_gt = Infinity
+        if(!amount_gt) amount_gt = 1000000000
         if(!amount_lt) amount_lt = 0
-        if(role && role !== 'CUSTOMER'){
-            pharmacy_id = role.pharmacy_id
+        if(role[0] && role[0] !== 'CUSTOMER'){
+            pharmacy_id = auth.pharmacy_id
         }
         let condition = {
             ...(pharmacy_id && {pharmacy_id})
@@ -103,10 +100,10 @@ class PharmacyService {
         }).findAll();
         return list;
     }
-    async getOneProduct (product_id) {
+    async getOneProduct ({product_id, auth}) {
         const product = await genericRepo.setOptions('Product', {
             condition: {id: product_id},
-            inclussions: [
+            ...(auth.role[0] === 'CUSTOMER '&&{inclussions: [
                 {
                     model: db.Pharmacy,
                     attributes: [
@@ -116,8 +113,8 @@ class PharmacyService {
                         'phone'
                     ]
                 }
-            ]
-        })
+            ]})
+        }).findOne()
         return product
     }
     async uploadProductsCsv (data) {
