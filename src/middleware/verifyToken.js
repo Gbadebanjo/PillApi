@@ -7,7 +7,7 @@ const genericRepo = require('../repository');
 const verify  = (roles) =>  {
     abortIf(!Array.isArray(roles) || roles.length <= 0, httpStatus.FORBIDDEN, 'Please specify role(s) for user')
     if(roles.length === 1 && roles.includes('*')){
-        roles = ['TENANT_ADMIN', 'SUPER_ADMIN', 'USER', 'CUSTOMER']
+        roles = ['PHARMA-ADMIN', 'PHARMA-SALES', 'CUSTOMER']
     }
     return async (req, res, next) => {
             let { role, pharmacy_id, user_id } = req.auth

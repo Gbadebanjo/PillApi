@@ -9,11 +9,11 @@ router.post("/register", authenticate, verify(['PHARMA-ADMIN']),  (new PharmacyC
 
 router.post("/profile-user", authenticate, verify(['PHARMA-ADMIN']),  (new PharmacyController()).profileUser);
 
-router.post("/add-stock",  (new PharmacyController()).addStock);
+router.post("/add-stock", authenticate, verify(['PHARMA-ADMIN']), (new PharmacyController()).addStock);
 
-router.post("/products",  (new PharmacyController()).listProducts);
+router.get("/products", authenticate, verify(['*']),  (new PharmacyController()).listProducts);
 
-router.post("/product/:product_id",  (new PharmacyController()).getOneProduct);
+router.get("/product/:product_id", authenticate, verify(['*']),  (new PharmacyController()).getOneProduct);
 
 router.post("/upload-product",  (new PharmacyController()).uploadProductsCsv);
 
