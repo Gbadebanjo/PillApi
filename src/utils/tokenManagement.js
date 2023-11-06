@@ -29,8 +29,13 @@ const generateAdminToken = (data) => {
 };
 
 const verifyToken = (token) => {
-    const data = jwt.verify(token, token_secret);
-    return data;
+    try{
+        const data = jwt.verify(token, token_secret);
+        return data;
+    }catch(err){
+        return false
+    }
+    
 };
 
 module.exports = {

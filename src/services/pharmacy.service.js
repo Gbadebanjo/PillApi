@@ -2,6 +2,7 @@ const httpStatus = require("http-status");
 const bcrypt = require("bcryptjs");
 const { generateToken } = require("../utils/tokenManagement");
 const { abortIf } = require("../utils/responder");
+const csv = require('csvtojson')
 // const { userDTO } = require("../DTOs/user.dto");
 const genericRepo = require("../repository");
 const { hashPassword, generateRandomString } = require("../utils/password.utils");
@@ -52,8 +53,8 @@ class PharmacyService {
     }
     async listProducts ({query, role, paginateOptions, auth}) {
         let {search, pharmacy_id, amount_gt, amount_lt } = query
-        if(!amount_gt) amount_gt = 1000000000
-        if(!amount_lt) amount_lt = 0
+        if(!amount_lt) amount_lt = 1000000000
+        if(!amount_gt) amount_gt = 0
         if(role[0] && role[0] !== 'CUSTOMER'){
             pharmacy_id = auth.pharmacy_id
         }
@@ -77,9 +78,10 @@ class PharmacyService {
         if(amount_gt){
             condition = {
                 ...condition,
-                amount: {
-                    [Op.between]: [amount_lt, amount_gt]
-                }
+                ...((amount_gt || amount_lt) && {amount: {
+                    [Op.gte]: amount_gt,
+                    [Op.lte]: amount_lt
+                }})
             }
         }
         const list = await genericRepo.setOptions('Product', {
@@ -117,9 +119,23 @@ class PharmacyService {
         }).findOne()
         return product
     }
-    async uploadProductsCsv (data) {
-        const {email, phone, firstname, lastname, role} = data
-        
+    async uploadProductsCsv ({auth, file}) {
+        abortIf(!file?.upload_sheet, httpStatus.BAD_REQUEST, 'Please upload a sheet.')
+        let {pharmacy_id, user_id, role} = auth
+        file = file?.upload_sheet?.tempFilePath
+        role = role[0]
+        const json = await csv().fromFile(file);
+        const arr = []
+        for(let item of json){
+            arr.push({
+                ...item,
+                pharmacy_id
+            })
+        }
+        await genericRepo.setOptions('Product', {
+            array: arr
+        }).bulkCreate()
+        return {message: "Successfully uploaded sheet."}
     }
     async getTransactions (data) {
         const {email, phone, firstname, lastname, role} = data
