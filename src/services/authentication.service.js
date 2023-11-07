@@ -4,7 +4,7 @@ const { generateToken } = require("../utils/tokenManagement");
 const { abortIf } = require("../utils/responder");
 // const { userDTO } = require("../DTOs/user.dto");
 const genericRepo = require("../repository");
-const { comparePasswords } = require("../utils/password.utils");
+const { comparePasswords, hashPassword } = require("../utils/password.utils");
 const db = require("../models");
 
 
@@ -52,14 +52,27 @@ class AuthenticationService {
     return { user, token }
   }
 
-  static async signUp(){
-    const users = genericRepo.setOptions('User', {
+  static async signUp({firstname, lastname, email, password, confirmPassword, phone}){
+    const users = await genericRepo.setOptions('User', {
       selectOptions: [
+        'firstname',
+        'lastname',
         'email',
+        'password',
         'phone'
-      ]
-    }).findAll()
-    return users
+      ],
+      condition: {email},
+    }).findOne()
+    abortIf(users, httpStatus.BAD_REQUEST, 'user already exist')
+    abortIf(password!==confirmPassword, httpStatus.BAD_REQUEST, 'password mismatch')
+    const hashedPassword = await hashPassword(password)
+    let createUser = await genericRepo.setOptions('User', {
+      data: {firstname, lastname, email, phone, password:hashedPassword}
+    }).create()
+    createUser = createUser.toJSON()
+    delete createUser.password
+    const token = generateToken(createUser)
+    return {user:createUser, token}
   }
 
 }

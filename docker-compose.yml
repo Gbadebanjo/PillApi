@@ -1,13 +1,13 @@
 version: '3.8'
 services:
-  dev-db:
+  postgres:
     image: postgres:13
     ports:
-      - 5434:5432
+      - 5436:5432
     environment:
-      POSTGRES_USER: postgres
+      POSTGRES_USER: Afo
       POSTGRES_PASSWORD: 123
-      POSTGRES_DB: dev_db
+      POSTGRES_DB: postgres
     networks:
       - pillfindr
   test-db:
