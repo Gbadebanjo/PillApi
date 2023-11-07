@@ -5,6 +5,7 @@ const { abortIf } = require("../utils/responder");
 const csv = require('csvtojson')
 // const { userDTO } = require("../DTOs/user.dto");
 const genericRepo = require("../repository");
+const xlsx = require('xlsx')
 const { hashPassword, generateRandomString } = require("../utils/password.utils");
 const { Op, Sequelize } = require("sequelize");
 const db = require("../models");
@@ -99,7 +100,7 @@ class PharmacyService {
                     ]
                 }
             ]})
-        }).findAll();
+        }).findAll();  
         return list;
     }
     async getOneProduct ({product_id, auth}) {
@@ -145,9 +146,62 @@ class PharmacyService {
         const {email, phone, firstname, lastname, role} = data
         
     }
-    async downloadProductsCsv (data) {
-        const {email, phone, firstname, lastname, role} = data
-        
+    async downloadProductsCsv ({auth, query}) {
+        let {search, amount_gt, amount_lt } = query
+        if(!amount_lt) amount_lt = 1000000000
+        if(!amount_gt) amount_gt = 0      
+        let pharmacy_id = auth?.pharmacy_id || '8c7c2f88-1356-45fa-a46d-f3db244a00a9'
+        let condition = {
+            ...(pharmacy_id && {pharmacy_id})
+        }
+        if(search){
+            condition = {
+                ...condition,
+                [Op.or]: {
+                    name: {
+                        [Op.iLike]: `%${search}%`
+                    },
+                    description: {
+                        [Op.iLike]: `%${search}%`
+                    }
+                }
+            }
+
+        }
+        if(amount_gt){
+            condition = {
+                ...condition,
+                ...((amount_gt || amount_lt) && {amount: {
+                    [Op.gte]: amount_gt,
+                    [Op.lte]: amount_lt
+                }})
+            }
+        }
+        const list = await genericRepo.setOptions('Product', {
+            condition,
+            selectOptions: ['id', 'name', 'amount', 'pharmacy_id', 'description', 'image'],
+            ...(!pharmacy_id && {inclussions: [
+                {
+                    model: db.Pharmacy,
+                    attributes: [
+                        'pharamacy_id',
+                        'name',
+                        'logo',
+                        'phone'
+                    ]
+                }
+            ]})
+        }).findAll();
+        const jsonInstances = list.map(list => list.toJSON());
+        let resp_work_book = xlsx.utils.book_new();
+        let response_sheet = xlsx.utils.json_to_sheet(jsonInstances);
+        xlsx.utils.book_append_sheet(resp_work_book, response_sheet, "Products");
+        const result = await xlsx.write(resp_work_book, {
+        type: "buffer",
+        bookType: "xlsx",
+        bookSST: false,
+        });
+        return result;
     }
 }
 

@@ -1,5 +1,6 @@
 const httpStatus = require('http-status');
 const ApiError = require('./ApiError');
+const stream = require('stream')
 
 const ApiResponder = (res, statusCode, message, payload, extra = {}) => {
   res.status(statusCode).send({
@@ -36,4 +37,37 @@ const abortUnless = (condition, status, message) => {
   if (!condition) abort(status, message);
 };
 
-module.exports = { ApiResponder, successResponse, errorResponse, abort, abortIf, abortUnless };
+const downloadResponder = (res, filepath, filename) => {
+  res.download(filepath, filename);
+};
+
+const download = (res, filepath, filename) => {
+  console.log('About to download');
+  return downloadResponder(res, filepath, filename);
+};
+
+const downloadPdfFile = async (fileData, res, fileName) => {
+  var fileContents = Buffer.from(fileData, 'base64');
+
+  var readStream = new stream.PassThrough();
+  readStream.end(fileContents);
+
+  res.set('Content-disposition', 'attachment; filename=' + fileName);
+  res.set('Content-Type', 'application/pdf');
+
+  readStream.pipe(res);
+};
+
+const downloadFile = async (fileDate, res, fileName, content_type) => {
+  var fileContents = Buffer.from(fileDate, 'base64');
+
+  var readStream = new stream.PassThrough();
+  readStream.end(fileContents);
+
+  res.set('Content-disposition', 'attachment; filename=' + fileName);
+  res.setHeader('Content-Type', content_type);
+
+  return await readStream.pipe(res);
+};
+
+module.exports = { ApiResponder, successResponse, errorResponse, abort, abortIf, abortUnless, downloadPdfFile, download, downloadFile };

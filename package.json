@@ -34,7 +34,8 @@
     "pg": "^8.7.1",
     "sequelize": "^7.0.0-alpha.2",
     "sequelize-cli": "^6.3.0",
-    "serverless-http": "^2.7.0"
+    "serverless-http": "^2.7.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "jest": "^27.3.0",
