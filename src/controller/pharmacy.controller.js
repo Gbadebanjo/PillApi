@@ -1,6 +1,6 @@
 const catchAsync = require("../utils/catchAsync");
 const PharmacyService = require("../services/pharmacy.service");
-const { successResponse, abortIf } = require("../utils/responder");
+const { successResponse, abortIf, downloadFile,  } = require("../utils/responder");
 const httpStatus = require("http-status");
 const { paginateOptions } = require("../utils/pagination");
 
@@ -41,9 +41,8 @@ class PharmacyController{
         return successResponse(res, create);
     });
     downloadProductsCsv = catchAsync(async (req, res, next) => {
-        console.log(req.body);
-        const create = await (new PharmacyService).downloadProductsCsv();
-        return successResponse(res, create);
+        const create = await (new PharmacyService).downloadProductsCsv({auth: req.auth, query: req.query});
+        return downloadFile(create, res, 'products.xlsx', "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
     });
 }
 

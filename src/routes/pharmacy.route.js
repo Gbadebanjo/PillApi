@@ -21,6 +21,6 @@ router.post("/transactions",  (new PharmacyController()).getTransactions);
 
 router.post("/download-transactions", (new PharmacyController()).downloadTransactionCsv);
 
-router.post("/download-products", (new PharmacyController()).downloadProductsCsv);
+router.get("/download-products", authenticate, verify(['*']), (new PharmacyController()).downloadProductsCsv);
 
 module.exports = router;
