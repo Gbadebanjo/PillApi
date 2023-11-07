@@ -5,13 +5,13 @@ const httpStatus = require("http-status");
 
 class AuthenticationController{
   static signUp = catchAsync(async (req, res, next) => {
-    const login = await (new AuthenticationService).signUp(req.body);
-    return successResponse(res, login);
+    const signUp = await AuthenticationService.signUp(req.body);
+    return successResponse(res, signUp);
   });
 
   static signIn = catchAsync(async (req, res, next) => {
-    const signUp = await AuthenticationService.signIn(req.body);
-    return successResponse(res, signUp);
+    const sigIn = await AuthenticationService.signIn(req.body);
+    return successResponse(res, signIn);
   });
 
   static adminSignIn = catchAsync(async (req, res, next) => {

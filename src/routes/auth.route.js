@@ -9,7 +9,7 @@ router.post("/sign-in", validateReq(login), AuthController.signIn);
 
 router.post("/admin/sign-in", validateReq(login), AuthController.adminSignIn);
 
-// router.post("/sign-up", validateReq(signUp), (new UserController()).getAllUser);
+router.post("/sign-up", validateReq(signUp), AuthController.signUp);
 
 
 module.exports = router;
