@@ -20,12 +20,16 @@ const errorResponse = (res, message = null, statusCode = httpStatus.INTERNAL_SER
   return ApiResponder(res, statusCode, httpMessage, {}, extra);
 };
 
-const abort = (status, message) => {
-  throw new ApiError(status, message);
+const abort = (status, message, next = null) => {
+  if(next){
+    next(new ApiError(status, message));
+  }else{
+    throw new ApiError(status, message);
+  }
 };
 
-const abortIf = (condition, status, message) => {
-  if (condition) abort(status, message);
+const abortIf = (condition, status, message, next = null) => {
+  if (condition) abort(status, message, next);
 };
 
 const abortUnless = (condition, status, message) => {

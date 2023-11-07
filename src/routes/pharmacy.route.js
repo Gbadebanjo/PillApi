@@ -15,7 +15,7 @@ router.get("/products", authenticate, verify(['*']),  (new PharmacyController())
 
 router.get("/product/:product_id", authenticate, verify(['*']),  (new PharmacyController()).getOneProduct);
 
-router.post("/upload-product",  (new PharmacyController()).uploadProductsCsv);
+router.post("/upload-product", authenticate, verify(['*']), (new PharmacyController()).uploadProductsCsv);
 
 router.post("/transactions",  (new PharmacyController()).getTransactions);
 

@@ -27,8 +27,7 @@ class PharmacyController{
         return successResponse(res, create);
     });
     uploadProductsCsv = catchAsync(async (req, res, next) => {
-        console.log(req.body);
-        const create = await (new PharmacyService).uploadProductsCsv();
+        const create = await (new PharmacyService).uploadProductsCsv({auth: req.auth, file: req.files});
         return successResponse(res, create);
     });
     getTransactions = catchAsync(async (req, res, next) => {
