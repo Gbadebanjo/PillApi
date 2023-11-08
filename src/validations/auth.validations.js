@@ -7,6 +7,7 @@ const login = {
   }),
 };
 
+
 const signUp = {
   body: Joi.object().keys({
     email: Joi.string().required(),
@@ -18,4 +19,4 @@ const signUp = {
   }),
 };
 
-module.exports = { login, signUp };
+module.exports = {login, signUp };

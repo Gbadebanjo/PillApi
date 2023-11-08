@@ -11,17 +11,11 @@ const db = require("../models");
 class AuthenticationService {
   static async signIn({email, password}){
     const user = await genericRepo.setOptions('User', {
+      selectOptions: [
+        'email',
+        'password'
+      ],
       condition: {email},
-      inclussions: [
-        {
-          model: db.Role,
-          required: false
-        },
-        {
-          model: db.Pharmacy,
-          required: false
-        }
-      ]
     }).findOne()
     abortIf(!user, httpStatus.BAD_REQUEST, 'Invalid Credentials')
     const match = await comparePasswords(password, user.password)

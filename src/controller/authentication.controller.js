@@ -10,8 +10,8 @@ class AuthenticationController{
   });
 
   static signIn = catchAsync(async (req, res, next) => {
-    const sigIn = await AuthenticationService.signIn(req.body);
-    return successResponse(res, signIn);
+    const login = await AuthenticationService.signIn(req.body);
+    return successResponse(res, login);
   });
 
   static adminSignIn = catchAsync(async (req, res, next) => {
