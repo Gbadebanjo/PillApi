@@ -25,6 +25,50 @@ class AuthenticationService {
     const token = generateToken(user.toJSON())
     return { user, token }
   }
+/********** courier signin*/
+  static async couriersignIn({email, password}){
+    const courier = await genericRepo.setOptions('Courier', {
+      selectOptions: [
+        'email',
+        'password'
+      ],
+      condition: {email},
+    }).findOne()
+    abortIf(!courier, httpStatus.BAD_REQUEST, 'Invalid Credentials')
+    const match = await comparePasswords(password, courier.password)
+    abortIf(!match, httpStatus.BAD_REQUEST, 'Invalid Credentials')
+    delete courier.toJSON().password
+    //generate Token
+    const token = generateToken(courier.toJSON())
+    return { courier, token }
+  }
+//courier signup
+//*********** */
+  static async couriersignUp({firstname, lastname, email, licenseplate, companyname, vehiclemodel, password, confirmPassword, phone}){
+    const courier = await genericRepo.setOptions('Courier', {
+      selectOptions: [
+        'firstname',
+        'lastname',
+        'email',
+        'licenseplate',
+        'companyname',
+        'vehiclemodel',
+        'password',
+        'phone'
+      ],
+      condition: {email},
+    }).findOne()
+    abortIf(courier, httpStatus.BAD_REQUEST, 'courierservice already exist')
+    abortIf(password!==confirmPassword, httpStatus.BAD_REQUEST, 'password mismatch')
+    const hashedPassword = await hashPassword(password)
+    let createCourier = await genericRepo.setOptions('Courier', {
+      data: {firstname, lastname, email, licenseplate, companyname, vehiclemodel, phone, password:hashedPassword}
+    }).create()
+    createCourier = createCourier.toJSON()
+    delete createCourier.password
+    const token = generateToken(createCourier)
+    return {courier:createCourier, token}
+  }
 
   static async adminSignIn({email, password}){
     let user = await genericRepo.setOptions('PharmaAdmin', {

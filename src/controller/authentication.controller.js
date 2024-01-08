@@ -9,9 +9,19 @@ class AuthenticationController{
     return successResponse(res, signUp);
   });
 
+  static couriersignUp = catchAsync(async (req, res, next) => {
+    const couriersignUp = await AuthenticationService.couriersignUp(req.body);
+    return successResponse(res, couriersignUp);
+  });
+
   static signIn = catchAsync(async (req, res, next) => {
     const login = await AuthenticationService.signIn(req.body);
     return successResponse(res, login);
+  });
+
+  static couriersignIn = catchAsync(async (req, res, next) => {
+    const courierlogin = await AuthenticationService.couriersignIn(req.body);
+    return successResponse(res, courierlogin);
   });
 
   static adminSignIn = catchAsync(async (req, res, next) => {
