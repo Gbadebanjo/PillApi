@@ -1,4 +1,4 @@
-const bcrypt = require('bcryptjs');
+const bcrypt = require("bcryptjs");
 
 const hashPassword = async (plaintextPassword) => {
   try {
@@ -20,19 +20,33 @@ const comparePasswords = async (plaintextPassword, hashedPassword) => {
 };
 
 function generateRandomString(length) {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-  
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      result += characters[randomIndex];
-    }
-  
-    return result;
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let result = "";
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    result += characters[randomIndex];
   }
 
-module.exports = {
-    hashPassword,
-    comparePasswords,
-    generateRandomString
+  return result;
 }
+
+function generateRandomOTP(length) {
+  const characters = "0123456789";
+  let result = "";
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    result += characters[randomIndex];
+  }
+
+  return result;
+}
+
+module.exports = {
+  hashPassword,
+  comparePasswords,
+  generateRandomString,
+  generateRandomOTP,
+};
