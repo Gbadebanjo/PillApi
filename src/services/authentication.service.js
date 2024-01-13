@@ -4,8 +4,9 @@ const { generateToken } = require("../utils/tokenManagement");
 const { abortIf } = require("../utils/responder");
 // const { userDTO } = require("../DTOs/user.dto");
 const genericRepo = require("../repository");
-const { comparePasswords, hashPassword } = require("../utils/password.utils");
+const { comparePasswords, hashPassword, generateRandomOTP } = require("../utils/password.utils");
 const db = require("../models");
+const UserController = require("../controller/user.controller");
 
 
 class AuthenticationService {
@@ -113,7 +114,55 @@ class AuthenticationService {
     return {user:createUser, token}
   }
 
-}
+  /********** otp*/
+  static async forgotpassword({email}){
+    //waiting for user/email
+    const findUser = await genericRepo.setOptions('User', {
+      selectOptions: [
+        'email', 'user_id'
+      ],
+      condition: {email},
+    }).findOne()
+    
+    abortIf(!findUser, !findUser.user_id, httpStatus.BAD_REQUEST, 'user not found')
+    
+
+    // Generate OTP
+  const otpcode = generateRandomOTP(5)
+  
+
+  let createotp = await genericRepo.setOptions('otp', {
+    data: {otp:otpcode, user_id:findUser.user_id}
+  }).create()
+  return {otp:createotp}
+  }
+
+  /**********reset pass*/
+  static async resetpassword({otp, newPassword, confirmPassword}){
+    const findOtp = await genericRepo.setOptions('otp', {
+      selectOptions: [
+        'otp',
+        'user_id'
+      ],
+      condition: {findOtp:'user_id'},
+    }).findOne()
+    abortIf(otp.otp !== otp, !findOtp.user_id, httpStatus.BAD_REQUEST, 'otp does not match')
+
+    //inputs new password after otp match
+      abortIf(newPassword!==confirmPassword, httpStatus.BAD_REQUEST, 'password mismatch')
+      const hashedPassword = await hashPassword(newPassword)
+      User.password = hashPassword
+      let updateUser = await genericRepo.setOptions('User', {
+        data: {password:hashedPassword, user_id:findUser.user_id}
+      }).update()
+      updateUser = updateUser.toJSON()
+      delete updateUser.newPassword
+      return {user:updateUser}
+      
+    }
+  }
+  
+
 
 
 module.exports = AuthenticationService
