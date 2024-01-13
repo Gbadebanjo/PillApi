@@ -4,7 +4,7 @@ const { Model } = require("sequelize");
 const PROTECTED_ATTRIBUTES = [];
 
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class Courier extends Model {
     toJSON() {
       // hide protected fields
       const attributes = { ...this.get() };
@@ -21,14 +21,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.hasMany(models.otp, {
-        foreignKey: "user_id",
-      });
+      
     }
   }
-  User.init(
+  Courier.init(
     {
-      user_id: {
+      courier_id: {
         allowNull: false,
         primaryKey: true,
         type: DataTypes.UUID,
@@ -36,14 +34,15 @@ module.exports = (sequelize, DataTypes) => {
       },
       firstname: DataTypes.STRING,
       lastname: DataTypes.STRING,
+      companyname: DataTypes.STRING,
+      licenseplate: DataTypes.STRING,
+      vehiclemodel: DataTypes.STRING,
+      phone: DataTypes.STRING,
       email: {
         type: DataTypes.STRING,
         unique: true
       },
-      phone: {
-        type: DataTypes.STRING,
-        // unique: true,
-      },
+      
       status: {
         type: DataTypes.ENUM(['verified', 'unverified']),
         defaultValue: 'unverified'
@@ -55,8 +54,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "User",
+      modelName: "Courier",
     }
   );
-  return User;
+  return Courier;
 };

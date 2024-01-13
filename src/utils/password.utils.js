@@ -20,33 +20,32 @@ const comparePasswords = async (plaintextPassword, hashedPassword) => {
 };
 
 function generateRandomString(length) {
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let result = "";
-
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length);
-    result += characters[randomIndex];
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+  
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      result += characters[randomIndex];
+    }
+  
+    return result;
   }
 
-  return result;
-}
-
-function generateRandomOTP(length) {
-  const characters = "0123456789";
-  let result = "";
-
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length);
-    result += characters[randomIndex];
+  function generateRandomOTP(length) {
+    const characters = "0123456789";
+    let result = "";
+  
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      result += characters[randomIndex];
+    }
+  
+    return result;
   }
-
-  return result;
-}
 
 module.exports = {
-  hashPassword,
-  comparePasswords,
-  generateRandomString,
-  generateRandomOTP,
-};
+    hashPassword,
+    comparePasswords,
+    generateRandomString,
+    generateRandomOTP
+}
