@@ -1,0 +1,9 @@
+/* In your CSS file */
+.text-white-no-underline {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .text-white-no-underline:hover {
+    cursor: pointer;
+  }
