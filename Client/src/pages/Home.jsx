@@ -4,7 +4,7 @@ import { Dropdown } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import { FaBars, FaSearch } from "react-icons/fa";
+import { FaBars, FaSearch, FaArrowRight } from "react-icons/fa";
 import styled from "styled-components";
 import { useMediaQuery } from "react-responsive";
 import ClapHands from "../assets/ClapHands.png";
@@ -14,18 +14,11 @@ import Drug from "../assets/drug.png";
 import Stethoscope from "../assets/stethoscope.png";
 import Car from "../assets/car.png";
 import CashAtHand from "../assets/cashathand.png";
-import { keyframes } from 'styled-components';
+import DrugBlog from "../assets/DrugBlog.png";
+import PhoneBlog from "../assets/PhoneBlog.png";
+import StetescopeBlog from "../assets/StetescopeBlog.png";
+// import { keyframes } from 'styled-components';
 // import { useInView } from 'react-intersection-observer';
-
-
-const fadeIn = keyframes`
-from {
-  transform: scale(0);
-}
-to {
-  transform: scale(1);
-}
-`;
 
 const StyledButton = styled.button`
   background-color: #008080;
@@ -101,6 +94,11 @@ const Sec2Title = styled.div`
   font-style: normal;
   font-weight: bold;
   font-size: 50px;
+  display: flex;
+
+  @media (max-width: 768px) {
+    font-size: 36px;
+  }
 `;
 
 const Sec2ImgAndTestContainer = styled.div`
@@ -139,13 +137,16 @@ const Sec2TestContainer = styled.div`
 `;
 
 const Services = styled.div`
-  height: 80vh;
+  height: auto;
   weight: 80%;
-  // padding-top: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 768px) {
+    padding-top: 310px;
+  }
 `;
 
 const ServicesBoxContainer = styled.div`
@@ -155,9 +156,6 @@ const ServicesBoxContainer = styled.div`
   align-items: center;
   height: 75%;
   width: 80%;
-  // animation: ${props => props.inView ? css`${fadeIn} 1s ease-in` : 'none'};
-
-  // background-color: #008080;
 `;
 
 const ServicesBox = styled.div`
@@ -169,6 +167,9 @@ const ServicesBox = styled.div`
   border-radius: 16px;
   margin: 20px;
   position: relative;
+
+  @media (max-width: 768px) {
+    margin: 10px;
 `;
 
 const ServiceBoxTitle = styled.h4`
@@ -191,10 +192,90 @@ const ServiceBoxText = styled.p`
 const ServiceBoxImg = styled.img`
   height: 100px;
   width: 100px;
- object-fit: contain;
+  object-fit: contain;
   position: absolute;
   bottom: 0;
   right: 0;
+`;
+
+const NewsAndUpdatesContainer = styled.div`
+  height: auto;
+  weight: 80%;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  `;
+
+const NewsAndUpdatesHeading = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 80%;
+  position: relative;
+`;
+
+const ViewAll = styled.p`
+  font-family: Segoe UI;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 15px;
+  padding-top: 30px;
+  position: absolute;
+  right: 0;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+  
+`;
+
+const NewsAndUpdatesBoxContainer = styled.div`
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+align-items: center;
+padding-top: 20px;
+// background-color: #f5f6f7;
+`;
+
+const NewsAndUpdatesBox = styled.div`
+  display: flex;
+  // flex-wrap: wrap;
+  flex-direction: column;
+  height: auto;
+  width: 400px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin: 10px;
+`;
+
+const NewsAndUpdatesBoxImg = styled.img`
+  height: 208px;
+  width: 370px;
+  object-fit: contain;
+  border-radius: 16px;
+  display: flex;
+`;
+
+const NewsAndUpdatesBoxText = styled.p`
+  font-family: Segoe UI;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  // color: gray;
+  padding-top: 10px;
+  display: flex;
+`;
+
+const NewsAndUpdatesBoxDate = styled.p`
+  font-family: Segoe UI;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  color: gray;
 `;
 
 const Home = () => {
@@ -202,11 +283,6 @@ const Home = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  // const [ref, inView] = useInView({
-  //   triggerOnce: true, // Change this to false if you want the animation to trigger again whenever it comes in view
-  // });
-  
 
   const isSmallScreen = useMediaQuery({ query: "(max-width: 768px)" });
 
@@ -434,16 +510,12 @@ const Home = () => {
           </ServicesBox>
           <ServicesBox>
             <ServiceBoxTitle>Remote patient monitoribg</ServiceBoxTitle>
-            <ServiceBoxText>
-              Made easy.
-            </ServiceBoxText>
+            <ServiceBoxText>Made easy.</ServiceBoxText>
             <ServiceBoxImg src={Stethoscope} />
           </ServicesBox>
           <ServicesBox>
             <ServiceBoxTitle>Medical loan</ServiceBoxTitle>
-            <ServiceBoxText>
-              Get quick loan for your healthy.
-            </ServiceBoxText>
+            <ServiceBoxText>Get quick loan for your healthy.</ServiceBoxText>
             <ServiceBoxImg src={CashAtHand} />
           </ServicesBox>
           <ServicesBox>
@@ -455,6 +527,44 @@ const Home = () => {
           </ServicesBox>
         </ServicesBoxContainer>
       </Services>
+      <NewsAndUpdatesContainer>
+        <NewsAndUpdatesHeading>
+          <Sec2Title>News and updates</Sec2Title>
+          <ViewAll>
+            View all
+            <Link to="/">
+           <FaArrowRight style={{margin: '10px'}}></FaArrowRight>
+            </Link>
+          </ViewAll>
+        </NewsAndUpdatesHeading>
+        <NewsAndUpdatesBoxContainer>
+        <NewsAndUpdatesBox>
+          <NewsAndUpdatesBoxImg src={PhoneBlog}></NewsAndUpdatesBoxImg>
+          <NewsAndUpdatesBoxText>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
+            voluptate, quibusdam voluptatum, quia, doloremque
+          </NewsAndUpdatesBoxText>
+          <NewsAndUpdatesBoxDate>12/12/2021</NewsAndUpdatesBoxDate>
+        </NewsAndUpdatesBox>
+        <NewsAndUpdatesBox>
+          <NewsAndUpdatesBoxImg src={StetescopeBlog}></NewsAndUpdatesBoxImg>
+          <NewsAndUpdatesBoxText>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
+            voluptate, quibusdam voluptatum, quia, doloremque
+          </NewsAndUpdatesBoxText>
+          <NewsAndUpdatesBoxDate>12/12/2021</NewsAndUpdatesBoxDate>
+        </NewsAndUpdatesBox>
+        <NewsAndUpdatesBox>
+          <NewsAndUpdatesBoxImg src={DrugBlog}></NewsAndUpdatesBoxImg>
+          <NewsAndUpdatesBoxText>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
+            voluptate, quibusdam voluptatum, quia, doloremque
+          </NewsAndUpdatesBoxText>
+          <NewsAndUpdatesBoxDate>12/12/2021</NewsAndUpdatesBoxDate>
+        </NewsAndUpdatesBox>
+        </NewsAndUpdatesBoxContainer>
+
+      </NewsAndUpdatesContainer>
     </div>
   );
 };
