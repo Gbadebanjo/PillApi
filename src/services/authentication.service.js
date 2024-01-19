@@ -113,23 +113,70 @@ class AuthenticationService {
         'otp',
         'user_id'
       ],
-      condition: {findOtp:'user_id'},
+      condition: {otp},
     }).findOne()
-    abortIf(otp.otp !== otp, !findOtp.user_id, httpStatus.BAD_REQUEST, 'otp does not match')
-
+    abortIf(!findOtp, httpStatus.BAD_REQUEST, 'otp does not match')
     //inputs new password after otp match
       abortIf(newPassword!==confirmPassword, httpStatus.BAD_REQUEST, 'password mismatch')
       const hashedPassword = await hashPassword(newPassword)
-      User.password = hashPassword
+      // User.password = hashPassword
       let updateUser = await genericRepo.setOptions('User', {
-        data: {password:hashedPassword, user_id:findUser.user_id}
+        changes: {password: hashedPassword},
+        condition: {user_id: findOtp.user_id},
+        returning: true
+        // data: {password:hashedPassword, user_id:findUser.user_id}
       }).update()
-      updateUser = updateUser.toJSON()
+      // updateUser = updateUser.toJSON()
       delete updateUser.newPassword
       return {user:updateUser}
       
-    }
   }
+
+  // **** courier signin*/
+  static async couriersignIn({email, password}){
+    const courier = await genericRepo.setOptions('Courier', {
+      selectOptions: [
+        'email',
+        'password'
+      ],
+      condition: {email},
+    }).findOne()
+    abortIf(!courier, httpStatus.BAD_REQUEST, 'Invalid Credentials')
+    const match = await comparePasswords(password, courier.password)
+    abortIf(!match, httpStatus.BAD_REQUEST, 'Invalid Credentials')
+    delete courier.toJSON().password
+    //generate Token
+    const token = generateToken(courier.toJSON())
+    return { courier, token }
+  }
+//courier signup
+//***** */
+  static async couriersignUp({firstname, lastname, email, licenseplate, companyname, vehiclemodel, password, confirmPassword, phone}){
+    const courier = await genericRepo.setOptions('Courier', {
+      selectOptions: [
+        'firstname',
+        'lastname',
+        'email',
+        'licenseplate',
+        'companyname',
+        'vehiclemodel',
+        'password',
+        'phone'
+      ],
+      condition: {email},
+    }).findOne()
+    abortIf(courier, httpStatus.BAD_REQUEST, 'courierservice already exist')
+    abortIf(password!==confirmPassword, httpStatus.BAD_REQUEST, 'password mismatch')
+    const hashedPassword = await hashPassword(password)
+    let createCourier = await genericRepo.setOptions('Courier', {
+      data: {firstname, lastname, email, licenseplate, companyname, vehiclemodel, phone, password:hashedPassword}
+    }).create()
+    createCourier = createCourier.toJSON()
+    delete createCourier.password
+    const token = generateToken(createCourier)
+    return {courier:createCourier, token}
+  }
+}
   
 
 
