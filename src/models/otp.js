@@ -4,7 +4,7 @@ const { Model } = require("sequelize");
 const PROTECTED_ATTRIBUTES = [];
 
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class otp extends Model {
     toJSON() {
       // hide protected fields
       const attributes = { ...this.get() };
@@ -20,43 +20,26 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
-      User.hasMany(models.otp, {
-        foreignKey: "user_id",
-      });
+        otp.belongsTo(models.User, {
+            foreignKey: "user_id",
+          });
     }
   }
-  User.init(
+  otp.init(
     {
-      user_id: {
+      otp_id: {
         allowNull: false,
         primaryKey: true,
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
       },
-      firstname: DataTypes.STRING,
-      lastname: DataTypes.STRING,
-      email: {
-        type: DataTypes.STRING,
-        unique: true
-      },
-      phone: {
-        type: DataTypes.STRING,
-        // unique: true,
-      },
-      status: {
-        type: DataTypes.ENUM(['verified', 'unverified']),
-        defaultValue: 'unverified'
-      },
-      location: DataTypes.STRING,
-      password: DataTypes.STRING,
-      last_login_at: DataTypes.DATE,
-      last_ip_address: DataTypes.STRING,
+      otp: DataTypes.STRING,
+      user_id: DataTypes.UUID
     },
     {
       sequelize,
-      modelName: "User",
+      modelName: "otp",
     }
   );
-  return User;
+  return otp;
 };
