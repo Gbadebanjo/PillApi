@@ -4,7 +4,7 @@ const { Model } = require("sequelize");
 const PROTECTED_ATTRIBUTES = [];
 
 module.exports = (sequelize, DataTypes) => {
-  class Pharmacy extends Model {
+  class Transaction extends Model {
     toJSON() {
       // hide protected fields
       const attributes = { ...this.get() };
@@ -21,50 +21,40 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Pharmacy.hasMany(models.PharmaAdmin, {
+      Transaction.belongsTo(models.Pharmacy, {
         foreignKey: "pharmacy_id",
       });
-      Pharmacy.hasMany(models.Product, {
-        foreignKey: "pharmacy_id",
+      Transaction.belongsTo(models.User, {
+        foreignKey: "user_id",
       });
-      Pharmacy.hasMany(models.Transaction, {
-        foreignKey: "pharmacy_id",
-      });
-      Pharmacy.hasMany(models.Order, {
-        foreignKey: "pharmacy_id",
-      });
+      Transaction.hasOne(models.Order, {
+        foreignKey: "transaction_id"
+      })
     }
   }
-  Pharmacy.init(
+  Transaction.init(
     {
-      pharmacy_id: {
+      id: {
         allowNull: false,
         primaryKey: true,
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
       },
-      name: DataTypes.STRING,
-      email: {
-        type: DataTypes.STRING,
-        unique: true
-      },
-      phone: {
-        type: DataTypes.STRING,
-        unique: true,
-      },
-      logo: DataTypes.TEXT,
+      user_id: DataTypes.UUID,
+      pharmacy_id: DataTypes.UUID,
+      amount: DataTypes.DECIMAL,
+      reference: DataTypes.STRING(50),
       status: {
-        type: DataTypes.ENUM(['verified', 'unverified']),
-        defaultValue: 'unverified'
+        type: DataTypes.ENUM('success', 'pending', 'failed', 'abandoned'),
+        defaultValue: 'pending'
       },
-      location: DataTypes.STRING,
-      last_login_at: DataTypes.DATE,
-      last_ip_address: DataTypes.STRING,
+      gateway: DataTypes.ENUM('paystack', 'flutterwave'),
+      response: DataTypes.JSON
     },
     {
       sequelize,
-      modelName: "Pharmacy",
+      modelName: "Transaction",
     }
   );
-  return Pharmacy;
+  return Transaction;
 };

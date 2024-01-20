@@ -44,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
       description: {
         type: DataTypes.TEXT,
       },
-      
+      quantity: DataTypes.DECIMAL
     },
     {
       sequelize,

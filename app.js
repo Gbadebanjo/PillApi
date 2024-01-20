@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const fileUpload = require("express-fileupload")
 const app = express();
 
-const { authRoute, userRoute, pharmacyRoute} = require("./src/routes");
+const { authRoute, userRoute, pharmacyRoute, orderRoute} = require("./src/routes");
 const { errorConverter, errorHandler } = require("./src/middleware/error");
 const ApiError = require("./src/utils/ApiError");
 const httpStatus = require("http-status");
@@ -21,6 +21,7 @@ app.use(express.json());
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/pharmacy", pharmacyRoute)
+app.use("/api/v1/order", orderRoute)
 
 app.use((req, res, next) => {
   next(new ApiError(httpStatus.NOT_FOUND, "Route Not found"));
