@@ -17,6 +17,8 @@ import CashAtHand from "../assets/cashathand.png";
 import DrugBlog from "../assets/DrugBlog.png";
 import PhoneBlog from "../assets/PhoneBlog.png";
 import StetescopeBlog from "../assets/StetescopeBlog.png";
+import DownloadOurApp from "../components/DownloadOurApp";
+import Footer from "../components/Footer";
 // import { keyframes } from 'styled-components';
 // import { useInView } from 'react-intersection-observer';
 
@@ -74,11 +76,9 @@ const Sec2MainContainer = styled.div`
 const Sec2Container = styled.div`
   display: flex;
   flex-direction: column;
-  // justify-content: center;
   align-items: center;
   height: 75%;
   width: 80%;
-  // background-color: #008080;
 `;
 
 const Sec2Buttons = styled.div`
@@ -219,8 +219,7 @@ const NewsAndUpdatesHeading = styled.div`
 const ViewAll = styled.p`
   font-family: Segoe UI;
   font-style: normal;
-  font-weight: bold;
-  font-size: 15px;
+C  font-size: 15px;
   padding-top: 30px;
   position: absolute;
   right: 0;
@@ -237,13 +236,13 @@ flex-wrap: wrap;
 justify-content: center;
 align-items: center;
 padding-top: 20px;
-// background-color: #f5f6f7;
 `;
 
 const NewsAndUpdatesBox = styled.div`
   display: flex;
-  // flex-wrap: wrap;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   height: auto;
   width: 400px;
 
@@ -266,7 +265,6 @@ const NewsAndUpdatesBoxText = styled.p`
   font-weight: bold;
   font-size: 14px;
   // color: gray;
-  padding-top: 10px;
   display: flex;
 `;
 
@@ -327,6 +325,8 @@ const Home = () => {
           backgroundRepeat: "no-repeat",
           width: "100%",
           height: "100vh",
+
+          
         }}
       >
         <div className="d-flex jusify-content-between align-items-center ">
@@ -565,6 +565,8 @@ const Home = () => {
         </NewsAndUpdatesBoxContainer>
 
       </NewsAndUpdatesContainer>
+      <DownloadOurApp />
+      <Footer />
     </div>
   );
 };
