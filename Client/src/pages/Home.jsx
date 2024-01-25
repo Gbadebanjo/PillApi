@@ -206,7 +206,7 @@ const NewsAndUpdatesContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  `;
+`;
 
 const NewsAndUpdatesHeading = styled.div`
   display: flex;
@@ -231,11 +231,11 @@ C  font-size: 15px;
 `;
 
 const NewsAndUpdatesBoxContainer = styled.div`
-display: flex;
-flex-wrap: wrap;
-justify-content: center;
-align-items: center;
-padding-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20px;
 `;
 
 const NewsAndUpdatesBox = styled.div`
@@ -325,8 +325,6 @@ const Home = () => {
           backgroundRepeat: "no-repeat",
           width: "100%",
           height: "100vh",
-
-          
         }}
       >
         <div className="d-flex jusify-content-between align-items-center ">
@@ -388,7 +386,9 @@ const Home = () => {
             >
               Support
             </Link>
-            <StyledButton>Sign Up</StyledButton>
+            <Link to="/user/signup">
+              <StyledButton>Sign Up</StyledButton>
+            </Link>
             <FaBars
               color="white"
               size={16}
@@ -533,37 +533,36 @@ const Home = () => {
           <ViewAll>
             View all
             <Link to="/">
-           <FaArrowRight style={{margin: '10px'}}></FaArrowRight>
+              <FaArrowRight style={{ margin: "10px" }}></FaArrowRight>
             </Link>
           </ViewAll>
         </NewsAndUpdatesHeading>
         <NewsAndUpdatesBoxContainer>
-        <NewsAndUpdatesBox>
-          <NewsAndUpdatesBoxImg src={PhoneBlog}></NewsAndUpdatesBoxImg>
-          <NewsAndUpdatesBoxText>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-            voluptate, quibusdam voluptatum, quia, doloremque
-          </NewsAndUpdatesBoxText>
-          <NewsAndUpdatesBoxDate>12/12/2021</NewsAndUpdatesBoxDate>
-        </NewsAndUpdatesBox>
-        <NewsAndUpdatesBox>
-          <NewsAndUpdatesBoxImg src={StetescopeBlog}></NewsAndUpdatesBoxImg>
-          <NewsAndUpdatesBoxText>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-            voluptate, quibusdam voluptatum, quia, doloremque
-          </NewsAndUpdatesBoxText>
-          <NewsAndUpdatesBoxDate>12/12/2021</NewsAndUpdatesBoxDate>
-        </NewsAndUpdatesBox>
-        <NewsAndUpdatesBox>
-          <NewsAndUpdatesBoxImg src={DrugBlog}></NewsAndUpdatesBoxImg>
-          <NewsAndUpdatesBoxText>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-            voluptate, quibusdam voluptatum, quia, doloremque
-          </NewsAndUpdatesBoxText>
-          <NewsAndUpdatesBoxDate>12/12/2021</NewsAndUpdatesBoxDate>
-        </NewsAndUpdatesBox>
+          <NewsAndUpdatesBox>
+            <NewsAndUpdatesBoxImg src={PhoneBlog}></NewsAndUpdatesBoxImg>
+            <NewsAndUpdatesBoxText>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
+              voluptate, quibusdam voluptatum, quia, doloremque
+            </NewsAndUpdatesBoxText>
+            <NewsAndUpdatesBoxDate>12/12/2021</NewsAndUpdatesBoxDate>
+          </NewsAndUpdatesBox>
+          <NewsAndUpdatesBox>
+            <NewsAndUpdatesBoxImg src={StetescopeBlog}></NewsAndUpdatesBoxImg>
+            <NewsAndUpdatesBoxText>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
+              voluptate, quibusdam voluptatum, quia, doloremque
+            </NewsAndUpdatesBoxText>
+            <NewsAndUpdatesBoxDate>12/12/2021</NewsAndUpdatesBoxDate>
+          </NewsAndUpdatesBox>
+          <NewsAndUpdatesBox>
+            <NewsAndUpdatesBoxImg src={DrugBlog}></NewsAndUpdatesBoxImg>
+            <NewsAndUpdatesBoxText>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
+              voluptate, quibusdam voluptatum, quia, doloremque
+            </NewsAndUpdatesBoxText>
+            <NewsAndUpdatesBoxDate>12/12/2021</NewsAndUpdatesBoxDate>
+          </NewsAndUpdatesBox>
         </NewsAndUpdatesBoxContainer>
-
       </NewsAndUpdatesContainer>
       <DownloadOurApp />
       <Footer />

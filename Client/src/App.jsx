@@ -7,6 +7,7 @@ import UserSignUp from "./pages/UserSignUp";
 import PharmacistLogin from "./pages/PharmacistLogin";
 import CourierLogin from "./pages/CourierLogin";
 import UserLogin from "./pages/UserLogin";
+import MedicalDelivery from "./pages/MedicalDelivery";
 function App() {
   return (
     <Routes>
@@ -17,6 +18,7 @@ function App() {
       <Route path="/courier/login" element={<CourierLogin />} />
       <Route path="/user/signup" element={<UserSignUp />} />
       <Route path="/user/login" element={<UserLogin />} />
+      <Route path="/medicaldelivery" element={<MedicalDelivery />} />
     </Routes>
   );
 }
