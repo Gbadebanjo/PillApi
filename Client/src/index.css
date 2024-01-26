@@ -1,0 +1,18 @@
+/* In your CSS file */
+.text-white-no-underline {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .text-white-no-underline:hover {
+    cursor: pointer;
+  }
+
+  .btn:hover {
+    background-color: #008080 !important;
+    color: white !important;
+  }
+
+  body {
+    font-family: 'Segoe UI', sans-serif;
+  }

@@ -33,6 +33,8 @@
     "mongoose": "^5.9.22",
     "otp-generator": "^4.0.1",
     "pg": "^8.7.1",
+    "react-intersection-observer": "^9.5.3",
+    "react-responsive": "^9.0.2",
     "sequelize": "^7.0.0-alpha.2",
     "sequelize-cli": "^6.3.0",
     "serverless-http": "^2.7.0",
