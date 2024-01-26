@@ -138,7 +138,7 @@ const Sec2TestContainer = styled.div`
 
 const Services = styled.div`
   height: auto;
-  weight: 80%;
+  width: 80%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -200,7 +200,7 @@ const ServiceBoxImg = styled.img`
 
 const NewsAndUpdatesContainer = styled.div`
   height: auto;
-  weight: 80%;
+  width: 80%;
   padding-top: 20px;
   display: flex;
   flex-direction: column;
