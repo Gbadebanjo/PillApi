@@ -4,7 +4,7 @@ const { Model } = require("sequelize");
 const PROTECTED_ATTRIBUTES = [];
 
 module.exports = (sequelize, DataTypes) => {
-  class Pharmacy extends Model {
+  class Order extends Model {
     toJSON() {
       // hide protected fields
       const attributes = { ...this.get() };
@@ -21,50 +21,38 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Pharmacy.hasMany(models.PharmaAdmin, {
+      Order.belongsTo(models.Pharmacy, {
         foreignKey: "pharmacy_id",
       });
-      Pharmacy.hasMany(models.Product, {
-        foreignKey: "pharmacy_id",
+      Order.belongsTo(models.User, {
+        foreignKey: "user_id",
       });
-      Pharmacy.hasMany(models.Transaction, {
-        foreignKey: "pharmacy_id",
-      });
-      Pharmacy.hasMany(models.Order, {
-        foreignKey: "pharmacy_id",
+      Order.belongsTo(models.Transaction, {
+        foreignKey: "transaction_id",
       });
     }
   }
-  Pharmacy.init(
+  Order.init(
     {
-      pharmacy_id: {
+      id: {
         allowNull: false,
         primaryKey: true,
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
       },
-      name: DataTypes.STRING,
-      email: {
-        type: DataTypes.STRING,
-        unique: true
-      },
-      phone: {
-        type: DataTypes.STRING,
-        unique: true,
-      },
-      logo: DataTypes.TEXT,
+      user_id: DataTypes.UUID,
+      pharmacy_id: DataTypes.UUID,
+      transaction_id: DataTypes.UUID,
+      quantity: DataTypes.DECIMAL,
       status: {
-        type: DataTypes.ENUM(['verified', 'unverified']),
-        defaultValue: 'unverified'
-      },
-      location: DataTypes.STRING,
-      last_login_at: DataTypes.DATE,
-      last_ip_address: DataTypes.STRING,
+        type: DataTypes.ENUM('delivered', 'ongoing', 'terminated'),
+        defaultValue: 'ongoing'
+      }
     },
     {
       sequelize,
-      modelName: "Pharmacy",
+      modelName: "Order",
     }
   );
-  return Pharmacy;
+  return Order;
 };

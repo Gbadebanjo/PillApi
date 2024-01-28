@@ -3,7 +3,8 @@ const Joi = require('joi');
 const login = {
   body: Joi.object().keys({
     // user_id: Joi.string().required(),
-    email: Joi.string().required()
+    email: Joi.string().required(),
+    password: Joi.string().required()
   }),
 };
 
