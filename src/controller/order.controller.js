@@ -14,6 +14,11 @@ class OrderController{
     });
     return successResponse(res, create);
   });
+
+  static completeOrder = catchAsync(async (req, res, next) => {
+    const create = await (new OrderService).completeOrder(req.body);
+    return successResponse(res, create);
+  });
 }
 
 

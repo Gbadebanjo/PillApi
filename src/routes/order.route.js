@@ -5,4 +5,6 @@ const router = express.Router();
 
 router.post("/", authenticate, verify(['CUSTOMER']),  OrderController.placeOrder);
 
+router.post("/complete-order", OrderController.completeOrder)
+
 module.exports = router;
