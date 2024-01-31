@@ -151,7 +151,7 @@ const Sec2TestContainer = styled.div`
 
 const Services = styled.div`
   height: auto;
-  weight: 80%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -182,7 +182,7 @@ const ServicesBox = styled.div`
   position: relative;
 
   @media (max-width: 768px) {
-    margin: 10px;}
+    margin: 10px;
 `;
 
 const ServiceBoxTitle = styled.h4`
@@ -213,7 +213,7 @@ const ServiceBoxImg = styled.img`
 
 const NewsAndUpdatesContainer = styled.div`
   height: auto;
-  width: 80%;
+  weight: 80%;
   padding-top: 20px;
   display: flex;
   flex-direction: column;
@@ -232,7 +232,7 @@ const NewsAndUpdatesHeading = styled.div`
 const ViewAll = styled.p`
   font-family: Segoe UI;
   font-style: normal;
-  font-size: 15px;
+C  font-size: 15px;
   padding-top: 30px;
   position: absolute;
   right: 0;
@@ -261,7 +261,7 @@ const NewsAndUpdatesBox = styled.div`
 
   @media (max-width: 768px) {
     width: 100%;
-    margin: 10px; }
+    margin: 10px;
 `;
 
 const NewsAndUpdatesBoxImg = styled.img`
