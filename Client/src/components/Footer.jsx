@@ -12,9 +12,10 @@ import {
 } from "react-icons/fa";
 
 const Container = styled.div`
-  height: auto;
-  width: 80%;
-  margin: 0px 0px 0px 80px;
+  height: 60vh;
+  width: 90%;
+  margin: 0px 40px 0px 60px;
+  background-color: #fff;
 
   @media (max-width: 768px) {
     width: 100%;
@@ -57,7 +58,8 @@ const FirstContainerImg = styled.img`
   object-fit: contain;
 
   @media (max-width: 768px) {
-    width: 150px;}
+    width: 150px;
+  }
 `;
 
 const FirstContainerText = styled.div`
@@ -119,11 +121,11 @@ const SecondToFourthContainerLink = styled(Link)`
 
 const SocialMediaContainer = styled.div`
   height: auto;
-  width: 80%;
+  width: 90%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin: 0px 0px 0px 130px;
+  margin: 0px 0px 0px 110px;
   border-bottom: 1px solid #f4f4f6;
 
   @media (max-width: 768px) {
@@ -163,7 +165,7 @@ const Icon = styled.div`
 
 const ButtonContainer = styled.div`
   height: auto;
-  width: 40%;
+  width: 50%;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -194,11 +196,9 @@ const Button = styled.button`
 
 const CCPage = styled.div`
   height: 8vh;
-  width: 80%;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  margin: 15px 0px 0px 120px;
+  margin: 15px 0px 0px 100px;
 
   @media (max-width: 768px) {
     width: 100%;
@@ -211,11 +211,22 @@ const CCPageText = styled.p`
   font-size: 15px;
   font-weight: 400;
   color: gray;
-  width: 65%;
+  width: 54%;
 
   @media (max-width: 768px) {
     width: 100%;
     text-align: center;
+  }
+`;
+
+const CCPageLinkContainer = styled.div`
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
   }
 `;
 
@@ -230,7 +241,8 @@ const CCPageLink = styled(Link)`
 
   @media (max-width: 768px) {
     width: 100%;
-    text-align: center; }
+    text-align: center;
+  }
 `;
 
 const Footer = () => {
@@ -306,11 +318,13 @@ const Footer = () => {
       </SocialMediaContainer>
       <CCPage>
         <CCPageText>© 2024 pillfindr Technology OU</CCPageText>
-        <CCPageLink to="/">Supplies</CCPageLink>
-        <CCPageLink to="/">Terms & Conditions</CCPageLink>
-        <CCPageLink to="/">Privacy</CCPageLink>
-        <CCPageLink to="/">Cookies</CCPageLink>
-        <CCPageLink to="/">Security</CCPageLink>
+        <CCPageLinkContainer>
+          <CCPageLink to="/">Supplies</CCPageLink>
+          <CCPageLink to="/">Terms & Conditions</CCPageLink>
+          <CCPageLink to="/">Privacy</CCPageLink>
+          <CCPageLink to="/">Cookies</CCPageLink>
+          <CCPageLink to="/">Security</CCPageLink>
+        </CCPageLinkContainer>
       </CCPage>
     </Container>
   );

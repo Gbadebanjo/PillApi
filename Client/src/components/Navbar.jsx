@@ -2,20 +2,60 @@ import Pillfindr from "../assets/Pillfindr.png";
 import { Dropdown } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useMediaQuery } from "react-responsive";
+import { Link } from "react-router-dom";
+import { FaBars } from "react-icons/fa";
 
 const Container = styled.div`
-  background-color: #008080;
-  height: 156.5px;
-  width: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #008080;
+
 `;
+
+const LogoContainer = styled.div`
+  flex-grow: 1;
+  padding: 0;
+`;
+
+const NavContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  flex-grow: 1;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
+`;
+
+const DropdownContainer = styled.div`
+  flex-grow: 1;
+  display: none;
+
+  @media (min-width: 768px) {
+    display: block;
+  }
+`;
+
+const SupportLink = styled(Link)`
+  color: white;
+  text-decoration: none;
+  flex-grow: 1;
+  margin: 2rem 0;
+
+  @media (min-width: 768px) {
+    margin: 0;
+  }
+`;
+
 const StyledButton = styled.button`
   border-radius: 20px;
   padding: 3px 25px;
   margin-right: 40px;
   color: white;
+  background-color: #00cccc;
   border: none;
 
   &:hover {
@@ -27,31 +67,43 @@ const StyledButton = styled.button`
     display: none;
   }
 `;
+
+const StyledFaBars = styled(FaBars)`
+  color: white;
+  flex-grow: 1;
+  margin: 2rem 0;
+
+  @media (min-width: 768px) {
+    margin: 0;
+  }
+`;
+
 const Navbar = () => {
   const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const isSmallScreen = useMediaQuery({ query: "(max-width: 768px)" });
-
   useEffect(() => {
-    fetch("https://restcountries.com/v3.1/all")
-      .then((response) => {
+    const fetchCountries = async () => {
+      try {
+        const response = await fetch("https://restcountries.com/v3.1/all");
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          setError("Network response was not ok");
+          setLoading(false);
+          return;
         }
-        return response.json();
-      })
-      .then((data) => {
+        const data = await response.json();
         setCountries(data);
         setLoading(false);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error:", error);
         setError(error.toString());
         setLoading(false);
-      });
+      }
+    };
+
+    fetchCountries();
   }, []);
 
   const handleSelect = (selectedKey) => {
@@ -66,13 +118,12 @@ const Navbar = () => {
     return <div>Error: {error}</div>;
   }
   return (
-    <Navbar>
-      <div className="d-flex jusify-content-between align-items-center ">
-        <div className="flex-grow-1 px-0">
+      <Container>
+        <LogoContainer>
           <img src={Pillfindr} alt="Pillfindr" />
-        </div>
-        <div className="d-flex flex-column flex-md-row justify-content-between align-items-center flex-grow-1">
-          <div className="flex-grow-1">
+        </LogoContainer>
+        <NavContainer>
+          <DropdownContainer>
             <Dropdown onSelect={handleSelect} className="d-none d-md-block">
               <Dropdown.Toggle
                 variant=""
@@ -119,22 +170,13 @@ const Navbar = () => {
                 ))}
               </Dropdown.Menu>
             </Dropdown>
-          </div>
-          <Link
-            className="text-white-no-underline flex-grow-1 my-2 my-md-0 d-none d-md-block"
-            to=""
-          >
-            Support
-          </Link>
+          </DropdownContainer>
+          <SupportLink to="">Support</SupportLink>
           <StyledButton>Sign Up</StyledButton>
-          <FaBars
-            color="white"
-            size={16}
-            className="flex-grow-1 my-2 my-md-0"
-          />
-        </div>
-      </div>
-    </Navbar>
+          <StyledFaBars size={18} />
+        </NavContainer>
+      </Container>
   );
 };
-export default Container;
+
+export default Navbar;

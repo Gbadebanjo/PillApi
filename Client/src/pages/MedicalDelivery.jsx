@@ -89,14 +89,13 @@ const Sec2Container = styled.div`
 `;
 
 const Sec2TextContainer = styled.div`
-  width: 40%;
+  width: 50%;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding-left: 150px;
   padding-top: 55px;
-  background-color: #f5f5f5;
 
   @media (max-width: 1100px) {
     width: 100%;
@@ -109,6 +108,7 @@ const Sec2TextHeading = styled.div`
   font-size: 40px;
   font-weight: 700;
   font-family: "Segoe UI";
+  padding-bottom: 20px;
 
   @media (max-width: 768px) {
     font-size: 30px;
