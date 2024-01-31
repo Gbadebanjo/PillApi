@@ -264,10 +264,10 @@ const Footer = () => {
           <SecondToFourthContainerTitle>
             Partner with Pillfindr
           </SecondToFourthContainerTitle>
-          <SecondToFourthContainerLink to="/">
+          <SecondToFourthContainerLink to="/pharmacist/signup">
             Sign up as a Pharmacist
           </SecondToFourthContainerLink>
-          <SecondToFourthContainerLink to="/">
+          <SecondToFourthContainerLink to="/courier/signup">
             Sign up as a courier
           </SecondToFourthContainerLink>
         </SecondToFourthContainer>
@@ -276,7 +276,7 @@ const Footer = () => {
           <SecondToFourthContainerLink to="/">
             Rides
           </SecondToFourthContainerLink>
-          <SecondToFourthContainerLink to="/">
+          <SecondToFourthContainerLink to="/medicaldelivery">
             Med delivery
           </SecondToFourthContainerLink>
         </SecondToFourthContainer>

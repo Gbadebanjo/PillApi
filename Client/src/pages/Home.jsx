@@ -40,28 +40,41 @@ const StyledButton = styled.button`
   }
 `;
 
-const SearchButton = styled.button`
-  background-color: #008080;
+const SearchInput = styled.input`
+  background-color: white;
   border-radius: 20px;
   padding: 5px 25px;
   margin: 50px 110px;
-  color: white;
+  color: #000;
   border: none;
 
   &:hover {
-    background-color: white;
-    color: #008080;
-
-    span {
-      color: #008080;
-    }
-  }
-  span {
+    background-color: #000;
     color: white;
   }
 
   @media (max-width: 768px) {
-    margin: 90px 30px;
+    margin: 10px 0px;
+    padding: 5px 25px;
+  }
+`;
+
+const SearchWrapper = styled.div`
+  position: relative;
+  @media (max-width: 768px) {
+    margin: 90px 20px;
+  }
+`;
+
+const SearchIcon = styled(FaSearch)`
+  position: absolute;
+  left: 21%;
+  top: 50%;
+  transform: translateY(-50%);
+
+  @media (max-width: 1408px) {
+    display: none;
+  }
 `;
 
 const Sec2MainContainer = styled.div`
@@ -138,7 +151,7 @@ const Sec2TestContainer = styled.div`
 
 const Services = styled.div`
   height: auto;
-  weight: 80%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -402,12 +415,12 @@ const Home = () => {
             fontFamily: "Segoe UI",
             fontWeight: 700,
             fontSize: isSmallScreen ? "30px" : "60px",
-            lineHeight: isSmallScreen ? "36px" : "72px",
-            width: isSmallScreen ? "450px" : "833px",
-            height: "153px",
+            lineHeight: isSmallScreen ? "33px" : "72px",
+            width: isSmallScreen ? "400px" : "833px",
+            height: isSmallScreen ? "120px" : "153px",
             marginTop: "-5px",
             color: "white",
-            padding: isSmallScreen ? "30px 2px 0px 30px" : "30px 2px 0px 106px",
+            padding: isSmallScreen ? "10px 2px 0px 10px" : "30px 2px 0px 106px",
           }}
         >
           Get Medication Wherever and Whenever
@@ -420,11 +433,11 @@ const Home = () => {
               fontWeight: 400,
               fontSize: "20px",
               lineHeight: "28px",
-              width: isSmallScreen ? "450px" : "935px",
+              width: isSmallScreen ? "400px" : "935px",
               height: "141px",
               marginTop: "1px",
               padding: isSmallScreen
-                ? "0px 0px 0px 30px"
+                ? "0px 0px 0px 10px"
                 : "60px 0px 0px 110px",
             }}
           >
@@ -434,13 +447,10 @@ const Home = () => {
             delivery or a quick in-person pickup, putting your health choices
             right at your fingertips.&quot;
           </div>
-          <SearchButton className="gap-5px">
-            Search for Medicine
-            <span>
-              {" "}
-              <FaSearch size={16} className="ms-2" />
-            </span>
-          </SearchButton>
+          <SearchWrapper>
+            <SearchInput type="text" placeholder="Search for Medicine" />
+            <SearchIcon size={16} />
+          </SearchWrapper>{" "}
         </div>
       </div>
       <Sec2MainContainer>
