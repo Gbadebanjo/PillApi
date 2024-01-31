@@ -17,6 +17,8 @@ import CashAtHand from "../assets/cashathand.png";
 import DrugBlog from "../assets/DrugBlog.png";
 import PhoneBlog from "../assets/PhoneBlog.png";
 import StetescopeBlog from "../assets/StetescopeBlog.png";
+import DownloadOurApp from "../components/DownloadOurApp";
+import Footer from "../components/Footer";
 // import { keyframes } from 'styled-components';
 // import { useInView } from 'react-intersection-observer';
 
@@ -59,7 +61,7 @@ const SearchButton = styled.button`
   }
 
   @media (max-width: 768px) {
-    margin: 90px 30px;
+    margin: 90px 30px; }
 `;
 
 const Sec2MainContainer = styled.div`
@@ -74,11 +76,9 @@ const Sec2MainContainer = styled.div`
 const Sec2Container = styled.div`
   display: flex;
   flex-direction: column;
-  // justify-content: center;
   align-items: center;
   height: 75%;
   width: 80%;
-  // background-color: #008080;
 `;
 
 const Sec2Buttons = styled.div`
@@ -169,7 +169,7 @@ const ServicesBox = styled.div`
   position: relative;
 
   @media (max-width: 768px) {
-    margin: 10px;
+    margin: 10px;}
 `;
 
 const ServiceBoxTitle = styled.h4`
@@ -206,7 +206,7 @@ const NewsAndUpdatesContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  `;
+`;
 
 const NewsAndUpdatesHeading = styled.div`
   display: flex;
@@ -219,7 +219,6 @@ const NewsAndUpdatesHeading = styled.div`
 const ViewAll = styled.p`
   font-family: Segoe UI;
   font-style: normal;
-  font-weight: bold;
   font-size: 15px;
   padding-top: 30px;
   position: absolute;
@@ -232,24 +231,24 @@ const ViewAll = styled.p`
 `;
 
 const NewsAndUpdatesBoxContainer = styled.div`
-display: flex;
-flex-wrap: wrap;
-justify-content: center;
-align-items: center;
-padding-top: 20px;
-// background-color: #f5f6f7;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20px;
 `;
 
 const NewsAndUpdatesBox = styled.div`
   display: flex;
-  // flex-wrap: wrap;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   height: auto;
   width: 400px;
 
   @media (max-width: 768px) {
     width: 100%;
-    margin: 10px;
+    margin: 10px; }
 `;
 
 const NewsAndUpdatesBoxImg = styled.img`
@@ -266,7 +265,6 @@ const NewsAndUpdatesBoxText = styled.p`
   font-weight: bold;
   font-size: 14px;
   // color: gray;
-  padding-top: 10px;
   display: flex;
 `;
 
@@ -388,7 +386,9 @@ const Home = () => {
             >
               Support
             </Link>
-            <StyledButton>Sign Up</StyledButton>
+            <Link to="/user/signup">
+              <StyledButton>Sign Up</StyledButton>
+            </Link>
             <FaBars
               color="white"
               size={16}
@@ -533,38 +533,39 @@ const Home = () => {
           <ViewAll>
             View all
             <Link to="/">
-           <FaArrowRight style={{margin: '10px'}}></FaArrowRight>
+              <FaArrowRight style={{ margin: "10px" }}></FaArrowRight>
             </Link>
           </ViewAll>
         </NewsAndUpdatesHeading>
         <NewsAndUpdatesBoxContainer>
-        <NewsAndUpdatesBox>
-          <NewsAndUpdatesBoxImg src={PhoneBlog}></NewsAndUpdatesBoxImg>
-          <NewsAndUpdatesBoxText>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-            voluptate, quibusdam voluptatum, quia, doloremque
-          </NewsAndUpdatesBoxText>
-          <NewsAndUpdatesBoxDate>12/12/2021</NewsAndUpdatesBoxDate>
-        </NewsAndUpdatesBox>
-        <NewsAndUpdatesBox>
-          <NewsAndUpdatesBoxImg src={StetescopeBlog}></NewsAndUpdatesBoxImg>
-          <NewsAndUpdatesBoxText>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-            voluptate, quibusdam voluptatum, quia, doloremque
-          </NewsAndUpdatesBoxText>
-          <NewsAndUpdatesBoxDate>12/12/2021</NewsAndUpdatesBoxDate>
-        </NewsAndUpdatesBox>
-        <NewsAndUpdatesBox>
-          <NewsAndUpdatesBoxImg src={DrugBlog}></NewsAndUpdatesBoxImg>
-          <NewsAndUpdatesBoxText>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-            voluptate, quibusdam voluptatum, quia, doloremque
-          </NewsAndUpdatesBoxText>
-          <NewsAndUpdatesBoxDate>12/12/2021</NewsAndUpdatesBoxDate>
-        </NewsAndUpdatesBox>
+          <NewsAndUpdatesBox>
+            <NewsAndUpdatesBoxImg src={PhoneBlog}></NewsAndUpdatesBoxImg>
+            <NewsAndUpdatesBoxText>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
+              voluptate, quibusdam voluptatum, quia, doloremque
+            </NewsAndUpdatesBoxText>
+            <NewsAndUpdatesBoxDate>12/12/2021</NewsAndUpdatesBoxDate>
+          </NewsAndUpdatesBox>
+          <NewsAndUpdatesBox>
+            <NewsAndUpdatesBoxImg src={StetescopeBlog}></NewsAndUpdatesBoxImg>
+            <NewsAndUpdatesBoxText>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
+              voluptate, quibusdam voluptatum, quia, doloremque
+            </NewsAndUpdatesBoxText>
+            <NewsAndUpdatesBoxDate>12/12/2021</NewsAndUpdatesBoxDate>
+          </NewsAndUpdatesBox>
+          <NewsAndUpdatesBox>
+            <NewsAndUpdatesBoxImg src={DrugBlog}></NewsAndUpdatesBoxImg>
+            <NewsAndUpdatesBoxText>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
+              voluptate, quibusdam voluptatum, quia, doloremque
+            </NewsAndUpdatesBoxText>
+            <NewsAndUpdatesBoxDate>12/12/2021</NewsAndUpdatesBoxDate>
+          </NewsAndUpdatesBox>
         </NewsAndUpdatesBoxContainer>
-
       </NewsAndUpdatesContainer>
+      <DownloadOurApp />
+      <Footer />
     </div>
   );
 };
