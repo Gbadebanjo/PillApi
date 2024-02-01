@@ -18,7 +18,6 @@ const Container = styled.div`
 
 const Sec1Container = styled.div`
   background-color: #008080;
-  
 `;
 
 const StyledButton = styled.button`
@@ -129,8 +128,8 @@ const StyledUl = styled.ul`
 
 const StyledLi = styled.li`
   position: relative;
-  padding-left: 30px; /* Make room for the custom bullet point */
-  margin-bottom: 10px; /* Add space between list items */
+  padding-left: 30px; 
+  margin-bottom: 10px; 
 
   &:before {
     content: ""; /* This is necessary for the pseudo-element to work */

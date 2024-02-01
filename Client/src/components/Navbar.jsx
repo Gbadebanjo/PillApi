@@ -10,7 +10,6 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   background-color: #008080;
-
 `;
 
 const LogoContainer = styled.div`
@@ -45,8 +44,8 @@ const SupportLink = styled(Link)`
   flex-grow: 1;
   margin: 2rem 0;
 
-  @media (min-width: 768px) {
-    margin: 0;
+  @media (max-width: 768px) {
+    display: none;
   }
 `;
 
@@ -118,64 +117,64 @@ const Navbar = () => {
     return <div>Error: {error}</div>;
   }
   return (
-      <Container>
-        <LogoContainer>
-          <img src={Pillfindr} alt="Pillfindr" />
-        </LogoContainer>
-        <NavContainer>
-          <DropdownContainer>
-            <Dropdown onSelect={handleSelect} className="d-none d-md-block">
-              <Dropdown.Toggle
-                variant=""
-                id="dropdown-basic"
-                style={{
-                  color: "white",
-                  fontSize: "15px",
-                }}
-              >
-                {selectedCountry ? (
-                  <>
-                    <img
-                      src={
-                        countries.find(
-                          (country) => country.name.common === selectedCountry
-                        ).flags.png
-                      }
-                      alt={selectedCountry}
-                      width="20"
-                      height="20"
-                      style={{ marginRight: "10px", borderRadius: "50%" }}
-                    />
-                    {selectedCountry} (EN)
-                  </>
-                ) : (
-                  "Select a country"
-                )}
-              </Dropdown.Toggle>
+    <Container>
+      <LogoContainer>
+        <img src={Pillfindr} alt="Pillfindr" />
+      </LogoContainer>
+      <NavContainer>
+        <DropdownContainer>
+          <Dropdown onSelect={handleSelect} className="d-none d-md-block">
+            <Dropdown.Toggle
+              variant=""
+              id="dropdown-basic"
+              style={{
+                color: "white",
+                fontSize: "15px",
+              }}
+            >
+              {selectedCountry ? (
+                <>
+                  <img
+                    src={
+                      countries.find(
+                        (country) => country.name.common === selectedCountry
+                      ).flags.png
+                    }
+                    alt={selectedCountry}
+                    width="20"
+                    height="20"
+                    style={{ marginRight: "10px", borderRadius: "50%" }}
+                  />
+                  {selectedCountry} (EN)
+                </>
+              ) : (
+                "Select a country"
+              )}
+            </Dropdown.Toggle>
 
-              <Dropdown.Menu>
-                {countries.map((country) => (
-                  <Dropdown.Item
-                    eventKey={country.name.common}
-                    key={country.name.common}
-                  >
-                    <img
-                      src={country.flags.png}
-                      alt={country.name.common}
-                      width="20"
-                      style={{ marginRight: "10px" }}
-                    />{" "}
-                    {country.name.common} (EN)
-                  </Dropdown.Item>
-                ))}
-              </Dropdown.Menu>
-            </Dropdown>
-          </DropdownContainer>
-          <SupportLink to="">Support</SupportLink>
-          <StyledButton>Sign Up</StyledButton>
-          <StyledFaBars size={18} />
-        </NavContainer>
-      </Container>
+            <Dropdown.Menu>
+              {countries.map((country) => (
+                <Dropdown.Item
+                  eventKey={country.name.common}
+                  key={country.name.common}
+                >
+                  <img
+                    src={country.flags.png}
+                    alt={country.name.common}
+                    width="20"
+                    style={{ marginRight: "10px" }}
+                  />{" "}
+                  {country.name.common} (EN)
+                </Dropdown.Item>
+              ))}
+            </Dropdown.Menu>
+          </Dropdown>
+        </DropdownContainer>
+        <SupportLink to="">Support</SupportLink>
+        <StyledButton>Sign Up</StyledButton>
+        <StyledFaBars size={18} />
+      </NavContainer>
+    </Container>
   );
 };
 
