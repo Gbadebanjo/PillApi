@@ -9,6 +9,11 @@ import CourierLogin from "./pages/CourierLogin";
 import UserLogin from "./pages/UserLogin";
 import MedicalDelivery from "./pages/MedicalDelivery";
 import PortalUpload from "./pages/PortalUpload";
+import MedicationSearch from "./pages/MedicationSearch";
+import About from "./pages/About";
+import Details from "./pages/Details";
+import SearchPage from "./pages/SearchPage";
+import PharmacistDashboard from "./pages/PharmacistDashboard";
 
 function App() {
   return (
@@ -22,6 +27,11 @@ function App() {
       <Route path="/user/login" element={<UserLogin />} />
       <Route path="/medicaldelivery" element={<MedicalDelivery />} />
       <Route path="/portalupload" element={<PortalUpload />} />
+      <Route path="/medicationsearch" element={<MedicationSearch />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/details" element={<Details />} />
+      <Route path="/searchpage" element={<SearchPage />} />
+      <Route path="/dashboard/pharmacist" element={<PharmacistDashboard />} />
     </Routes>
   );
 }

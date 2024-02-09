@@ -118,7 +118,6 @@ const Sec2ImgAndTestContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  // background-color: #008080;
   height: 100%;
   width: 100%;
 
@@ -457,6 +456,7 @@ const Home = () => {
         <Sec2Container>
           <Sec2Title>Easy money with Pillfindr</Sec2Title>
           <Sec2Buttons>
+            <Link to="/pharmacist/login">
             <Button
               variant="outline-secondary"
               size="sm"
@@ -464,6 +464,8 @@ const Home = () => {
             >
               Pharmacy
             </Button>
+            </Link>
+            <Link to="/courier/login">
             <Button
               variant="outline-secondary"
               size="sm"
@@ -471,6 +473,8 @@ const Home = () => {
             >
               Courier
             </Button>
+            </Link>
+            <Link to="/user/login">
             <Button
               variant="outline-secondary"
               size="sm"
@@ -478,6 +482,7 @@ const Home = () => {
             >
               Store Owner
             </Button>
+            </Link>
           </Sec2Buttons>
           <Sec2ImgAndTestContainer>
             <Sec2ImgContainer src={ClapHands} />

@@ -262,7 +262,7 @@ const Footer = () => {
         </FirstContainer>
         <SecondToFourthContainer>
           <SecondToFourthContainerTitle>Company</SecondToFourthContainerTitle>
-          <SecondToFourthContainerLink to="/">
+          <SecondToFourthContainerLink to="/about">
             About Us
           </SecondToFourthContainerLink>
           <SecondToFourthContainerLink to="/">

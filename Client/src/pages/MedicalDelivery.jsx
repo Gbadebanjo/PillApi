@@ -112,7 +112,6 @@ const Sec2TextHeading = styled.div`
   @media (max-width: 768px) {
     font-size: 30px;
   }
-    
 `;
 
 const StyledUl = styled.ul`
@@ -128,8 +127,8 @@ const StyledUl = styled.ul`
 
 const StyledLi = styled.li`
   position: relative;
-  padding-left: 30px; 
-  margin-bottom: 10px; 
+  padding-left: 30px;
+  margin-bottom: 10px;
 
   &:before {
     content: ""; /* This is necessary for the pseudo-element to work */
@@ -159,7 +158,6 @@ const Sec2Img = styled.img`
   height: 80%;
   object-fit: contain;
   margin-top: 10vh;
-  // margin-left: 15vh;
 
   @media (max-width: 768px) {
     width: 90%;
@@ -266,7 +264,11 @@ const MedicalDelivery = () => {
             >
               Support
             </Link>
-            <StyledButton>Sign Up</StyledButton>
+            <Link to="/user/signup">
+              {" "}
+              <StyledButton>Sign Up</StyledButton>
+            </Link>
+
             <FaBars
               color="white"
               size={16}

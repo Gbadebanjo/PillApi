@@ -293,7 +293,6 @@ const SubmitButton = styled.button`
 
   @media (max-width: 768px) {
     width: 70%;
-
   }
 `;
 
