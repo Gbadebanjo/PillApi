@@ -1,0 +1,23 @@
+/* In your CSS file */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+.text-white-no-underline {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .text-white-no-underline:hover {
+    cursor: pointer;
+  }
+
+  .btn:hover {
+    background-color: #008080 !important;
+    color: white !important;
+  }
+
+  body {
+    font-family: 'Segoe UI', sans-serif;
+  }
