@@ -1,3 +1,5 @@
+import React from 'react'
+
 import styled from "styled-components";
 import { Link, NavLink } from "react-router-dom";
 import Pillfindr from "../assets/Pillfindr3.png";
@@ -224,8 +226,8 @@ const ViewBoardContainer = styled.div`
   height: auto;
   width: 100%;
   flex-wrap: wrap;
-  justify-content: space-around;
-  padding: 20px 0px 0px 35px;
+  justify-content: space-between;
+  padding: 20px 30px 0px 60px;
 `;
 
 const ViewBoard = styled.div`
@@ -302,7 +304,7 @@ const Tr1 = styled.tr`
   border-bottom: 3px solid #898a8d;
   `;
 
-const PharmacistDashboard = () => {
+const UserDashboard = () => {
   const [updateCount, setUpdateCount] = useState(0);
   const [imageSrc, setImageSrc] = useState(
     "https://as1.ftcdn.net/v2/jpg/05/16/27/58/1000_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg"
@@ -678,13 +680,6 @@ const PharmacistDashboard = () => {
           </ViewBoard>
           <ViewBoard>
             <ViewBoardTextContainer>
-              <ViewBoardText1>Out for delivery</ViewBoardText1>
-              <ViewBoardText2>View orders</ViewBoardText2>
-            </ViewBoardTextContainer>
-            <ViewBoardNumber>4</ViewBoardNumber>
-          </ViewBoard>
-          <ViewBoard>
-            <ViewBoardTextContainer>
               <ViewBoardText1>Delivered</ViewBoardText1>
               <ViewBoardText2>View orders</ViewBoardText2>
             </ViewBoardTextContainer>
@@ -727,4 +722,4 @@ const PharmacistDashboard = () => {
   );
 };
 
-export default PharmacistDashboard;
+export default UserDashboard;

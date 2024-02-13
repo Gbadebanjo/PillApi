@@ -14,6 +14,8 @@ import About from "./pages/About";
 import Details from "./pages/Details";
 import SearchPage from "./pages/SearchPage";
 import PharmacistDashboard from "./pages/PharmacistDashboard";
+import UserDashboard from "./pages/UserDashboard";
+import CourierDashboard from "./pages/CourierDashboard";
 
 function App() {
   return (
@@ -32,6 +34,8 @@ function App() {
       <Route path="/details" element={<Details />} />
       <Route path="/searchpage" element={<SearchPage />} />
       <Route path="/dashboard/pharmacist" element={<PharmacistDashboard />} />
+      <Route path="/dashboard/user" element={<UserDashboard />} />
+      <Route path="/dashboard/courier" element={<CourierDashboard />} />
     </Routes>
   );
 }
