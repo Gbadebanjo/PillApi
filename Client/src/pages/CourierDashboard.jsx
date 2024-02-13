@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from "styled-components";
 import { Link, NavLink } from "react-router-dom";
 import Pillfindr from "../assets/Pillfindr3.png";
@@ -302,7 +303,7 @@ const Tr1 = styled.tr`
   border-bottom: 3px solid #898a8d;
   `;
 
-const PharmacistDashboard = () => {
+const CourierDashboard = () => {
   const [updateCount, setUpdateCount] = useState(0);
   const [imageSrc, setImageSrc] = useState(
     "https://as1.ftcdn.net/v2/jpg/05/16/27/58/1000_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg"
@@ -671,14 +672,14 @@ const PharmacistDashboard = () => {
         <ViewBoardContainer>
           <ViewBoard>
             <ViewBoardTextContainer>
-              <ViewBoardText1>All orders</ViewBoardText1>
+              <ViewBoardText1>All Pick ups</ViewBoardText1>
               <ViewBoardText2>View orders</ViewBoardText2>
             </ViewBoardTextContainer>
             <ViewBoardNumber>10</ViewBoardNumber>
           </ViewBoard>
           <ViewBoard>
             <ViewBoardTextContainer>
-              <ViewBoardText1>Out for delivery</ViewBoardText1>
+              <ViewBoardText1>Awaiting Pick up</ViewBoardText1>
               <ViewBoardText2>View orders</ViewBoardText2>
             </ViewBoardTextContainer>
             <ViewBoardNumber>4</ViewBoardNumber>
@@ -727,4 +728,4 @@ const PharmacistDashboard = () => {
   );
 };
 
-export default PharmacistDashboard;
+export default CourierDashboard;
