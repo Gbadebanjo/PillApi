@@ -89,7 +89,7 @@ class AuthenticationService {
     //waiting for user/email
     const findUser = await genericRepo.setOptions('User', {
       selectOptions: [
-        'email', 'user_id'
+        'email', 'user_id'//
       ],
       condition: {email},
     }).findOne()
