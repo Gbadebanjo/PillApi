@@ -30,7 +30,7 @@ app.use((req, res, next) => {
 app.use(errorConverter);
 app.use(errorHandler);
 
-module.exports = app;
+module.exports = app;//
 
 // app.listen(3004, () => console.log(`Listening on: 3004`));
 
