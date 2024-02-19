@@ -10,6 +10,8 @@ router.post("/sign-in", validateReq(login), AuthController.signIn);
 
 router.post("/admin/sign-in", validateReq(login), AuthController.adminSignIn);
 
+router.post("/admin/sign-up", AuthController.adminSignUp)
+
 router.post("/sign-up", validateReq(signUp), AuthController.signUp);
 /*courier*/
 router.post("/courier/sign-in", validateReq(login), AuthController.couriersignIn);

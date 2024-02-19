@@ -29,6 +29,11 @@ class AuthenticationController{
     return successResponse(res, signUp);
   });
 
+  static adminSignUp = catchAsync(async (req, res, next) => {
+    const signUp = await AuthenticationService.adminSignUp(req.body);
+    return successResponse(res, signUp);
+  });
+
   static forgotpassword = catchAsync(async (req, res, next) => {
     const forgotpassword = await AuthenticationService.forgotpassword(req.body);
     return successResponse(res, forgotpassword);
