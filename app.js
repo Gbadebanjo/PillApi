@@ -4,6 +4,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 const fileUpload = require("express-fileupload")
 const app = express();
+const cors = require('cors')
+const helmet = require('helmet')
+
 
 const { authRoute, userRoute, pharmacyRoute, orderRoute} = require("./src/routes");
 const { errorConverter, errorHandler } = require("./src/middleware/error");
@@ -15,6 +18,8 @@ app.use(fileUpload({
   tempFileDir : '/tmp/'
 }));
 
+app.use(cors())
+app.use(helmet())
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
