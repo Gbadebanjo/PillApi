@@ -84,6 +84,58 @@ class AuthenticationService {
     return {user:createUser, token}
   }
 
+  static async adminSignUp({
+    user:{
+      firstname, 
+      lastname, 
+      email, 
+      password, 
+      confirmPassword, 
+      phone
+    }, 
+    pharmacy:{
+      emailAddress,
+      pharmaName,
+      pharmaLogo,
+      pharmaPhone,
+    }
+  }){
+    //check for pharmacy
+    const pharmacy = await genericRepo.setOptions('Pharmacy', {
+      selectOptions: [
+        'name',
+        'email',
+        'phone'
+      ],
+      condition: {email: emailAddress},
+    }).findOne()
+    abortIf(pharmacy, httpStatus.BAD_REQUEST, 'Pharmacy already exists')
+    let createPharmacy = await genericRepo.setOptions('Pharmacy', {
+      data: {name: pharmaName, email: emailAddress, phone: pharmaPhone }
+    }).create()
+    const users = await genericRepo.setOptions('PharmaAdmin', {
+      selectOptions: [
+        'firstname',
+        'lastname',
+        'email',
+        'password',
+        'phone'
+      ],
+      condition: {email},
+    }).findOne()
+    abortIf(users, httpStatus.BAD_REQUEST, 'user already exist')
+    abortIf(password!==confirmPassword, httpStatus.BAD_REQUEST, 'password mismatch')
+    const hashedPassword = await hashPassword(password)
+    let createUser = await genericRepo.setOptions('PharmaAdmin', {
+      data: {firstname, lastname, email, phone, password:hashedPassword, pharmacy_id: createPharmacy.pharmacy_id, role: ['PHARMA-ADMIN']}
+    }).create()
+    createUser = createUser.toJSON()
+    createPharmacy = createPharmacy.toJSON()
+    delete createUser.password
+    const token = generateToken(createUser)
+    return {user:createUser, pharmacy:createPharmacy, token}
+  }
+
   /********** otp*/
   static async forgotpassword({email}){
     //waiting for user/email
