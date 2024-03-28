@@ -34,7 +34,7 @@ class AuthenticationService {
     //   },
     //   {
     //     "Content-Type": "application/json",
-    //     Authorization: `Bearer ${process.env.GENERIC_SERVICE_TOKEN}`,
+    //     Authorization: `Bearer ${process.env.GENERIC_SERVICE_TOKEN}`,,
     //     service: "pillfindr",
     //   }
     // );
