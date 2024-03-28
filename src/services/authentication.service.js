@@ -23,22 +23,23 @@ class AuthenticationService {
     delete user.toJSON().password;
     //generate Token
     const token = generateToken(user.toJSON());
-    await axiosPOST(
-      `${process.env.NOTIFICATION_SERVICE}/notification/send-email`,
-      {
-        user,
-        subject: "Login",
-        from: "info@pillfindr.com",
-        context: "",
-        type: "login",
-      },
-      {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.GENERIC_SERVICE_TOKEN}`,
-        service: "pillfindr",
-      }
-    );
-    return { ...user.toJSON(), token };
+    // await axiosPOST(
+    //   `${process.env.NOTIFICATION_SERVICE}/notification/send-email`,
+    //   {
+    //     user,
+    //     subject: "Login",
+    //     from: "info@pillfindr.com",
+    //     context: "",
+    //     type: "login",
+    //   },
+    //   {
+    //     "Content-Type": "application/json",
+    //     Authorization: `Bearer ${process.env.GENERIC_SERVICE_TOKEN}`,
+    //     service: "pillfindr",
+    //   }
+    // );
+    // return { ...user.toJSON(), token };
+    return { user, token }
   }
 
   static async adminSignIn({email, password}){
