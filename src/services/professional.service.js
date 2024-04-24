@@ -78,23 +78,6 @@ class ProfessionalService {
       }
       }
 
-      // async updateProfessionalDetails(professionalId, details) {
-      //   const professional = await genericRepo.setOptions('Professional', {
-      //     condition: { professional_id: professionalId },
-      //   }).findOne();
-      //   console.log('Found professional:', professional);
-
-      //   abortIf(!professional, httpStatus.NOT_FOUND, 'Professional not found');
-      //   const updatedProfessional = await genericRepo.setOptions('Professional', {
-      //     condition: { professional_id: professionalId },
-      //     data: details
-      //   }).update();
-      //       console.log('Updated professional:', updatedProfessional);
-
-      //   return updatedProfessional;
-      // }
-
-
       async updateProfessionalDetails(professionalId, details) {
         const professional = await Professional.findOne({ where: { professional_id: professionalId } });
         console.log('Found professional:', professional);
@@ -112,6 +95,22 @@ class ProfessionalService {
     
         return updatedProfessional;
     }
+
+    async getProfessionalById(professionalId) {
+      const professional = await Professional.findOne({ where: { professional_id: professionalId } });
+      if (!professional) {
+          throw new Error('Professional not found');
+      }
+      return professional;
     }
+
+    async getAllProfessionals() {
+      const professionals = await Professional.findAll();
+      if (!professionals) {
+          throw new Error('No professionals found');
+      }
+      return professionals;
+    }
+}
 
     module.exports = ProfessionalService;

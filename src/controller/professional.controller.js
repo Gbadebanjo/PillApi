@@ -45,6 +45,20 @@ class ProfessionalController {
         return successResponse(res, updatedProfessional);
     });
 
+    static  getAllProfessionals = catchAsync(async (req, res, next) => {
+        const professionals = await professionalService.getAllProfessionals();
+        if (professionals.length === 0) {
+            return errorResponse(res, 'No Professionals available at this time, kindly check back later', httpStatus.NOT_FOUND);
+        }
+        return successResponse(res, professionals);
+    });
+
+    static getProfessionalById = catchAsync(async (req, res, next) => {
+        const professional = await professionalService.getProfessionalById(req.params.id);
+        abortIf(!professional, httpStatus.NOT_FOUND, 'Professional not found');
+        return successResponse(res, professional);
+    });
+
 }
 
 module.exports = ProfessionalController

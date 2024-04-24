@@ -15,4 +15,8 @@ router.get("/physiotherapists", authenticate, verify(['*']), ProfessionalControl
 
 router.patch("/update-details/:id", ProfessionalController.updateDetails);
 
+router.get("/all-professionals", authenticate, verify(['*']), ProfessionalController.getAllProfessionals);
+
+router.get("/:id", authenticate, verify(['*']), ProfessionalController.getProfessionalById);
+
 module.exports = router;
