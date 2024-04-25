@@ -18,8 +18,10 @@ const verify  = (roles) =>  {
 
 const authenticate = async(req, res, next) => {
     const token = req?.headers?.authorization?.split(' ')[1];
+    console.log(`token: ${token}`);
     abortIf(!token || token == '', httpStatus.FORBIDDEN, 'You shall not pass');
     const data = verifyToken(token);
+    console.log(`data: ${data}`);
     abortIf(!data, httpStatus.FORBIDDEN, 'You shall not pass', next);
     req.auth = {role: data?.role, pharmacy_id: data?.Pharmacy?.pharmacy_id, user_id: data?.user_id};
     next();

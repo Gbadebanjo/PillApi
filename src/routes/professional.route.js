@@ -7,15 +7,15 @@ router.post("/sign-up", ProfessionalController.signUp);
 
 router.post("/sign-in", ProfessionalController.signIn);
 
-router.get("/doctors", authenticate, verify(['*']), ProfessionalController.getDoctors);
+router.get("/doctors",  ProfessionalController.getDoctors);
 
-router.get("/dentists", authenticate, verify(['*']), ProfessionalController.getDentists);
+router.get("/dentists", ProfessionalController.getDentists);
 
-router.get("/physiotherapists", authenticate, verify(['*']), ProfessionalController.getPhysiotherapists);
+router.get("/physiotherapists", ProfessionalController.getPhysiotherapists);
 
 router.patch("/update-details/:id", ProfessionalController.updateDetails);
 
-router.get("/all-professionals", authenticate, verify(['*']), ProfessionalController.getAllProfessionals);
+router.get("/all-professionals", ProfessionalController.getAllProfessionals);
 
 router.get("/:id", authenticate, verify(['*']), ProfessionalController.getProfessionalById);
 
