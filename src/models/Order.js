@@ -44,6 +44,14 @@ module.exports = (sequelize, DataTypes) => {
       pharmacy_id: DataTypes.UUID,
       transaction_id: DataTypes.UUID,
       quantity: DataTypes.DECIMAL,
+      delivery_method: {
+        type: DataTypes.ENUM('home_delivery', 'pick_up'),
+        allowNull: true
+      },
+      address: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
       status: {
         type: DataTypes.ENUM('delivered', 'ongoing', 'terminated'),
         defaultValue: 'ongoing'

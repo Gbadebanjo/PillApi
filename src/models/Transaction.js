@@ -45,15 +45,19 @@ module.exports = (sequelize, DataTypes) => {
       amount: DataTypes.DECIMAL,
       reference: DataTypes.STRING(50),
       status: {
-        type: DataTypes.ENUM('success', 'pending', 'failed', 'abandoned'),
+        type: DataTypes.ENUM('success', 'pending', 'failed', 'abandoned', 'on_delivery', 'transferred'),
         defaultValue: 'pending'
       },
-      gateway: DataTypes.ENUM('paystack', 'flutterwave'),
-      response: DataTypes.JSON
+      gateway: {
+        type: DataTypes.ENUM('paystack', 'flutterwave', 'cash_on_delivery', 'transfer'),
+        allowNull: false,
+      },
+      response: DataTypes.JSON,
     },
     {
       sequelize,
       modelName: "Transaction",
+      tableName: "Transactions",
     }
   );
   return Transaction;

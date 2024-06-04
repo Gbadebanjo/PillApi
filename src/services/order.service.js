@@ -1,86 +1,97 @@
 const httpStatus = require("http-status");
-const bcrypt = require("bcryptjs");
 const { sequelize } = require("../models");
-const { generateToken } = require("../utils/tokenManagement");
 const { abortIf } = require("../utils/responder");
-const {axiosPOST} = require('../utils/request')
-// const { userDTO } = require("../DTOs/user.dto");
 const genericRepo = require("../repository");
 const { generateRandomString } = require("../utils/password.utils");
-
+const FlutterwaveService = require("./flutterwave.service");
 
 class OrderService {
-  async placeOrder({ auth, product_id, quantity, gateway }) {
+  async placeOrder({ auth, product_id, quantity, gateway, delivery_method, address }) {
+    console.log(`Incoming Request: delivery_method: ${delivery_method}, address: ${address}`);
+
     const t = await sequelize.transaction();
-    try{
-      const {user_id} = auth
-      const reference = `PFNDR_${generateRandomString(10)}`
+    try {
+      const { user_id } = auth;
+      const reference = `PFNDR_${generateRandomString(10)}`;
+
       // get User
       const user = await genericRepo.setOptions('User', {
         selectOptions: ['email'],
-        condition: {user_id},
-      }).findOne()
+        condition: { user_id },
+      }).findOne();
+
+      // get Product and Pharmacy
       const product = await genericRepo.setOptions('Product', {
         selectOptions: ['quantity', 'amount', 'pharmacy_id'],
-        condition: {id: product_id}
-      }).findOne()
+        condition: { id: product_id }
+      }).findOne();
+
       const pharmacy = await genericRepo.setOptions('Pharmacy', {
         selectOptions: ['name'],
-        condition: {pharmacy_id: product.pharmacy_id}
-      }).findOne()
-      abortIf(Number(product.quantity) < quantity, httpStatus.BAD_REQUEST, `${pharmacy.name} does not have enough of the item purchased`)
-      const amountToPay = quantity * product.amount
-      //create txn
+        condition: { pharmacy_id: product.pharmacy_id }
+      }).findOne();
+
+      abortIf(Number(product.quantity) < quantity, httpStatus.BAD_REQUEST, `${pharmacy.name} does not have enough of the item purchased`);
+      const amountToPay = quantity * product.amount;
+      
+      // create txn
       const transaction = await genericRepo.setOptions('Transaction', {
         data: {
           user_id,
           pharmacy_id: product.pharmacy_id,
           amount: amountToPay,
           gateway,
-          reference
+          reference,
+          status: (gateway === 'cash_on_delivery' || gateway === 'transfer') ? 'on_delivery' : 'pending',
+          delivery_method
         },
         transaction: t
-      }).create()
-      //create order
-      const order = await genericRepo.setOptions('Order', {
-        data: {
-          user_id,
-          pharmacy_id: product.pharmacy_id,
-          transaction_id: transaction.id,
-          quantity
-        },
-        transaction: t
-      }).create()
+      }).create();
 
-      const call = await axiosPOST(
-        `${process.env.NOTIFICATION_SERVICE}/payment/initiate`,
-        { 
-          amount: amountToPay, 
-          currency: 'NGN', 
-          meta: {
-            email: user.email,
-            order_id: order.id,
-            reference,
-            product_id,
-            pharmacy_id: product.pharmacy_id,
-          }, 
-          reference, 
-          gateway, 
-          email: user.email 
-        },
-        {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.GENERIC_SERVICE_TOKEN}`,
-          service: "pillfindr",
-        }
-      );
-      await t.commit()
-      return call?.data
-    }catch(error){
+      // create order
+      const orderData = {
+        user_id,
+        pharmacy_id: product.pharmacy_id,
+        transaction_id: transaction.id,
+        quantity,
+        delivery_method
+      };
+
+      if (delivery_method === 'home_delivery') {
+        orderData.address = address;
+      }
+
+      const order = await genericRepo.setOptions('Order', {
+        data: orderData,
+        transaction: t
+      }).create();
+
+      // Handle Flutterwave Payment
+      if (gateway === 'flutterwave') {
+        const paymentResponse = await FlutterwaveService.initiatePayment({
+          amount: amountToPay,
+          email: user.email,
+          tx_ref: reference,
+        });
+
+        await t.commit();
+        return paymentResponse;
+      } else {
+        // For cash on delivery and transfer, commit transaction directly
+        await t.commit();
+        return {
+          message: 'Order Placed Successfully!',
+          order,
+          transaction
+        };
+      }
+    } catch (error) {
       await t.rollback();
-      abortIf(error, httpStatus.INTERNAL_SERVER_ERROR, error.message)
-    }  
+      abortIf(error, httpStatus.INTERNAL_SERVER_ERROR, error.message);
+    }
   }
+
+
 
   
 // email:
@@ -108,7 +119,7 @@ class OrderService {
           id: order_id
         }
       }).findOne()
-      const {quantity} = order
+      const {quantity} = order;
       //update product
       const product = await genericRepo.setOptions('Product', {
         condition: {
