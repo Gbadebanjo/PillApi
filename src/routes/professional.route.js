@@ -17,6 +17,6 @@ router.patch("/update-details/:id", ProfessionalController.updateDetails);
 
 router.get("/all-professionals", ProfessionalController.getAllProfessionals);
 
-router.get("/:id", authenticate, verify(['*']), ProfessionalController.getProfessionalById);
+router.get("/:id", ProfessionalController.getProfessionalById);
 
 module.exports = router;

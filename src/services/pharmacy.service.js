@@ -9,7 +9,7 @@ const xlsx = require('xlsx')
 const { hashPassword, generateRandomString } = require("../utils/password.utils");
 const { Op, Sequelize } = require("sequelize");
 const db = require("../models");
-
+const { haversineDistance } = require("../utils/geolocation");
 
 class PharmacyService {
     async register(data){
@@ -103,23 +103,7 @@ class PharmacyService {
         }).findAll();  
         return list;
     }
-    async getOneProduct ({product_id, auth}) {
-        const product = await genericRepo.setOptions('Product', {
-            condition: {id: product_id},
-            ...(auth.role[0] === 'CUSTOMER '&&{inclussions: [
-                {
-                    model: db.Pharmacy,
-                    attributes: [
-                        'pharamacy_id',
-                        'name',
-                        'logo',
-                        'phone'
-                    ]
-                }
-            ]})
-        }).findOne()
-        return product
-    }
+    
     async uploadProductsCsv ({auth, file}) {
         abortIf(!file?.upload_sheet, httpStatus.BAD_REQUEST, 'Please upload a sheet.')
         let {pharmacy_id, user_id, role} = auth
@@ -143,8 +127,7 @@ class PharmacyService {
         
     }
     async downloadTransactionCsv (data) {
-        const {email, phone, firstname, lastname, role} = data
-        
+        const {email, phone, firstname, lastname, role} = data   
     }
     async downloadProductsCsv ({auth, query}) {
         let {search, amount_gt, amount_lt } = query
@@ -202,6 +185,72 @@ class PharmacyService {
         bookSST: false,
         });
         return result;
+    }
+
+    async listAllProducts(req, res) {
+        try {
+            let { search } = req.query;
+            // console.log('search:', search);
+            let condition = {};
+            if (search) {
+                condition = {
+                    [Op.or]: [
+                        { 'name': { [Op.iLike]: `%${search}%` } },
+                        { '$Pharmacy.name$': { [Op.iLike]: `%${search}%` } }
+                    ]
+                };
+            }
+            const products = await genericRepo.setOptions('Product', {
+                condition,
+                selectOptions: ['id', 'name', 'amount', 'pharmacy_id', 'description', 'image'],
+                inclussions: [
+                    {
+                        model: db.Pharmacy,
+                        attributes: ['pharmacy_id', 'name', 'logo', 'phone','location']
+                    }
+                ]
+            }).findAll();
+            res.json(products);
+        } catch (err) {
+            console.error('Error in listAllProducts:', err);
+            res.status(500).json({ message: err.message, error: err.toString() });
+        }
+    }
+
+    async getOneProduct ({product_id}) {
+        const product = await genericRepo.setOptions('Product', {
+            condition: {id: product_id},
+            selectOptions: ['id', 'name', 'amount', 'pharmacy_id', 'description', 'image'],
+            inclussions: [
+            {
+                    model: db.Pharmacy,
+                    attributes: [
+                        'pharmacy_id',
+                        'name',
+                        'logo',
+                        'phone',
+                    ]
+                }
+            ]
+        }).findOne()
+        return product
+    }
+
+    async findNearbyPharmacies ({ latitude, longtitude, radius = 10}) {
+        const pharmacies = await db.pharmacy.findAll({
+            attributes: ['pharmacy_id', 'name', 'latitude', 'longitude'],
+            where: {
+                latitude: { [Op.ne]: null },
+                longitude: { [Op.ne]: null }
+              }
+        });
+
+        const nearbyPharmcies = pharmacies.filter(pharmacy => {
+            const distance = haversineDistance(latitude, longtitude, pharmacy.latitude, pharmacy.longitude);
+            return distance <= radius;
+        });
+
+        return nearbyPharmcies;
     }
 }
 
