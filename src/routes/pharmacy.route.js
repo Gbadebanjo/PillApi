@@ -7,6 +7,8 @@ const router = express.Router();
 
 router.post("/register", authenticate, verify(['PHARMA-ADMIN']), (new PharmacyController()).register);
 
+router.put("/update", authenticate, verify(['PHARMA-ADMIN']), (new PharmacyController()).update);
+
 router.post("/profile-user", authenticate, verify(['PHARMA-ADMIN']), (new PharmacyController()).profileUser);
 
 router.post("/add-stock", authenticate, verify(['PHARMA-ADMIN']), (new PharmacyController()).addStock);

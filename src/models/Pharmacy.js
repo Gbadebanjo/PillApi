@@ -60,6 +60,8 @@ module.exports = (sequelize, DataTypes) => {
       location: DataTypes.STRING,
       latitude: DataTypes.DOUBLE,
       longitude: DataTypes.DOUBLE,
+      bank_name: DataTypes.STRING,
+      account_number: DataTypes.STRING,
       last_login_at: DataTypes.DATE,
       last_ip_address: DataTypes.STRING,
     },
