@@ -9,6 +9,16 @@ class PharmacyController {
         const create = await (new PharmacyService).register({ ...req.body, user_id: req.auth.user_id });
         return successResponse(res, create);
     });
+
+    getPharmacy = catchAsync(async (req, res, next) => {
+        const pharmacy = await (new PharmacyService).getPharmacy({ pharmacy_id: req.auth.pharmacy_id });
+        return successResponse(res, pharmacy);
+    });
+
+    update = catchAsync(async (req, res, next) => {
+        const create = await (new PharmacyService).updatePharmacy({ pharmacyId: req.auth.pharmacy_id, updateData: req.body });
+        return successResponse(res, create);
+    });
     profileUser = catchAsync(async (req, res, next) => {
         const create = await (new PharmacyService).profileUser({ user: { ...req.body }, pharmacy_id: req.auth.pharmacy_id, role: req.auth.role });
         return successResponse(res, create);
@@ -60,7 +70,10 @@ class PharmacyController {
     findNearbyPharmacies = catchAsync(async (req, res, next) => {
         const { latitude, longitude, radius } = req.query;
         abortIf(!latitude || !longitude, httpStatus.BAD_REQUEST, "Latitude and Longitude are required");
-        const pharmacies = await (new PharmacyService).findNearbyPharmacies({
+
+        console.log('Received request:', { latitude, longitude, radius });
+
+        const pharmacies = await (new PharmacyService()).findNearbyPharmacies({
             latitude: parseFloat(latitude),
             longitude: parseFloat(longitude),
             radius: parseFloat(radius),

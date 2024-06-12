@@ -27,6 +27,12 @@ class GenericRepo {
 
    update = () =>{
       const {changes, condition, transaction, returning} = this.query
+      console.log('Update Query:', {
+         changes,
+         where: condition,
+         returning,
+         ...(transaction && {transaction})
+       });
       return this.dbQuery.update(
         changes,
         {
