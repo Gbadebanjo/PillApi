@@ -9,6 +9,12 @@ class PharmacyController {
         const create = await (new PharmacyService).register({ ...req.body, user_id: req.auth.user_id });
         return successResponse(res, create);
     });
+
+    getPharmacy = catchAsync(async (req, res, next) => {
+        const pharmacy = await (new PharmacyService).getPharmacy({ pharmacy_id: req.auth.pharmacy_id });
+        return successResponse(res, pharmacy);
+    });
+
     update = catchAsync(async (req, res, next) => {
         const create = await (new PharmacyService).updatePharmacy({ pharmacyId: req.auth.pharmacy_id, updateData: req.body });
         return successResponse(res, create);

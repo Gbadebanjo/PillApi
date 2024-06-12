@@ -36,6 +36,17 @@ class PharmacyService {
         return pharmacy
     }
 
+    async getPharmacy({ pharmacy_id }) {
+        console.log('Fetching pharmacy with ID:', pharmacy_id);
+        if (!pharmacy_id) {
+            throw new Error('Invalid pharmacyId: pharmacyId cannot be null or undefined');
+        }
+        const pharmacy = await genericRepo.setOptions('Pharmacy', {
+            condition: { pharmacy_id}
+        }).findOne();
+        return pharmacy;
+    }
+
     async updatePharmacy({ pharmacyId, updateData }) {
 
         // Find the pharmacy
