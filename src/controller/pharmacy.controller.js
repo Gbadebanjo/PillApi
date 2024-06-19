@@ -53,9 +53,6 @@ class PharmacyController {
     });
     listAllProducts = catchAsync(async (req, res, next) => {
         const products = await (new PharmacyService()).listAllProducts(req, res);
-        if (!products) {
-            return next(new AppError('No products found', 404));
-        }
         return successResponse(res, products);
     });
 

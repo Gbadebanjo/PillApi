@@ -11,7 +11,7 @@ const { Op, Sequelize } = require("sequelize");
 const db = require("../models");
 const { haversineDistance } = require("../utils/geolocation");
 const { Pharmacy } = require("../models");
-
+const { getPagination, getPagingData } = require("../utils/pagination")
 class PharmacyService {
     async register(data) {
         const {
@@ -229,28 +229,60 @@ class PharmacyService {
 
     async listAllProducts(req, res) {
         try {
-            let { search } = req.query;
-            // console.log('search:', search);
+            let { search, latitude, longitude, radius = 10, sort, page = 1, limit = 10 } = req.query;
+
             let condition = {};
             if (search) {
                 condition = {
                     [Op.or]: [
-                        { 'name': { [Op.iLike]: `%${search}%` } },
-                        { '$Pharmacy.name$': { [Op.iLike]: `%${search}%` } }
+                        { name: { [Op.iLike]: `%${search}%` } },
+                        { '$Pharmacy.name$': { [Op.iLike]: `%${search}%` } },
+                        { description: { [Op.iLike]: `%${search}%` } },
                     ]
                 };
             }
-            const products = await genericRepo.setOptions('Product', {
-                condition,
-                selectOptions: ['id', 'name', 'amount', 'pharmacy_id', 'description', 'image'],
-                inclussions: [
+
+            const { limit: pageLimit, offset } = getPagination(page, limit);
+
+            const products = await db.Product.findAndCountAll({
+                where: condition,
+                attributes: ['id', 'name', 'amount', 'pharmacy_id', 'description', 'image'],
+                include: [
                     {
                         model: db.Pharmacy,
-                        attributes: ['pharmacy_id', 'name', 'logo', 'phone', 'location']
+                        attributes: ['pharmacy_id', 'name', 'logo', 'phone', 'location', 'latitude', 'longitude']
                     }
-                ]
-            }).findAll();
-            res.json(products);
+                ],
+                offset,
+                limit: pageLimit
+            });
+
+            let filteredProducts = products.rows.map(product => {
+                const { latitude: pharmacyLat, longitude: pharmacyLon } = product.Pharmacy;
+                const distance = haversineDistance(latitude, longitude, pharmacyLat, pharmacyLon);
+                return { ...product.toJSON(), distance }; // Add distance to each product object
+            });
+
+            // Filter products by proximity if latitude and longitude are provided
+            if (latitude && longitude && radius) {
+                filteredProducts = filteredProducts.filter(product => product.distance <= radius);
+            }
+
+            // Sort products based on the sort parameter
+            if (sort) {
+                if (sort === 'priceAsc') {
+                    filteredProducts.sort((a, b) => a.amount - b.amount);
+                } else if (sort === 'priceDesc') {
+                    filteredProducts.sort((a, b) => b.amount - a.amount);
+                } else if (sort === 'recentlyAdded') {
+                    filteredProducts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                } else if (sort === 'proximity') {
+                    filteredProducts.sort((a, b) => a.distance - b.distance);
+                }
+            }
+
+            const paginationData = getPagingData({ count: products.count, rows: filteredProducts }, page, pageLimit);
+            res.json(paginationData);
         } catch (err) {
             console.error('Error in listAllProducts:', err);
             res.status(500).json({ message: err.message, error: err.toString() });
@@ -269,6 +301,7 @@ class PharmacyService {
                         'name',
                         'logo',
                         'phone',
+                        'location',
                     ]
                 }
             ]
@@ -302,6 +335,5 @@ class PharmacyService {
         return nearbyPharmcies;
     }
 }
-
 
 module.exports = PharmacyService

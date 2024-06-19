@@ -1,20 +1,16 @@
 // PAGINATION
 const getPagination = (page, size) => {
     const limit = size ? +size : 20;
-    const offset = page ? page * limit : 0;
+    const offset = page ? (page - 1) * limit : 0;
 
     return { limit, offset };
 };
 
-const getPagingData = (allData, page, limit) => {
-    const { count: totalItems, rows: data } = allData;
-
-    const currentPage = page ? ++page : 1;
-    // const previousPage = currentPage ? -page : 1;
-    // const nextPage = page ? +page : 0;
+const getPagingData = (data, page, limit) => {
+    const { count: totalItems, rows: products } = data;
+    const currentPage = page ? +page : 1;
     const totalPages = Math.ceil(totalItems / limit);
-
-    return { data, totalItems, totalPages, currentPage };
+    return { totalItems, products, totalPages, currentPage };
 };
 
 const getReqPagination = (req) => {
